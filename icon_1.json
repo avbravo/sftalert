@@ -1,0 +1,106 @@
+ <div class="grid ui-fluid mt-3 floatlabel-demo">
+                        <div class="col-12 md:col-6">
+                            <div class="field">
+                                <span class="ui-float-label">
+                                    <p:inputText value="#{tableroFaces.tarjetaEditarSelected.tarjeta}"/>
+                                    <p:outputLabel for="@previous" value="#{msg['field.tarjeta']}" />
+                                            <p:message for="@previous" />
+                                </span>
+                            </div>
+                            <div class="field">
+                                <span class="ui-float-label ui-input-icon-left">
+                                    <i class="pi pi-pencil" />
+                                    <p:inputTextarea value="#{tableroFaces.tarjetaEditarSelected.descripcion}" rows="3" autoResize="true"/>
+                                    <p:outputLabel for="@previous" value="#{msg['field.descripcion']}" styleClass="ml-4" />
+                                            <p:message for="@previous" />
+                                </span>
+                            </div>
+                            <div class="field">
+                                <span class="ui-float-label">
+
+                                    <p:selectOneMenu value="#{tableroFaces.tarjetaEditarSelected.prioridad}" 
+                                                     autoWidth="false"
+                                                     filter="true" filterMatchMode="startsWith">
+
+                                        <f:selectItem itemLabel="#{msg['selectonemenu.prioridadalta']}" itemValue="Alta"/>
+                                        <f:selectItem itemLabel="#{msg['selectonemenu.prioridadmedia']}" itemValue="Media"/>
+                                        <f:selectItem itemLabel="#{msg['selectonemenu.prioridadbaja']}" itemValue="Baja"/>
+                                        <f:selectItem itemLabel="#{msg['selectonemenu.prioridadurgente']}" itemValue="Urgente"/>
+
+
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel for="@previous" value="#{msg['field.prioridad']}" />
+                                            <p:message for="@previous" />
+                                </span>
+                            </div>
+
+
+
+
+                        </div>
+
+                        <div class="col-12 md:col-6">
+                            <div class="field">
+                                <div class="ui-inputgroup">
+                                    <span class="ui-inputgroup-addon"> <i class="pi pi-clock" />
+                                    </span> <span class="ui-float-label" style="width: 100%">
+                                        <p:inputText value="#{tableroFaces.tarjetaEditarSelected.estimacion}"   title="#{msg['examole.estimacion']}" />
+                                        <p:outputLabel for="@previous" value="#{msg['field.estimacion']}" />
+                                                <p:message for="@previous" />
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <span class="ui-float-label">
+                                    <p:datePicker id="tarjetaAddfechafinal" value="#{tableroFaces.tarjetaEditarSelected.fechafinal}" showIcon="true"
+                                                  maxdate="#{tableroFaces.sprintSelected.fechafinal}" 
+                                                  mindate="#{tableroFaces.sprintSelected.fechainicial}"
+                                                  monthNavigator="true" yearNavigator="true"
+                                                  />
+                                    <p:outputLabel for="@previous" value="#{msg['field.fechafinal']}"  />
+                                    <p:message for="@previous" />
+                                </span>
+                            </div>
+                            <div class="field">
+                                <span class="ui-float-label">
+                                    <p:selectOneMenu  value="#{tableroFaces.tarjetaEditarSelected.tipotarjeta}"
+                                                      var="item" autoWidth="false">
+                                        <f:selectItems value="#{tableroFaces.tipotarjetaList}"  var="item" 
+                                                       itemLabel="#{item.tipotarjeta}"
+                                                       itemValue="#{item}" />
+                                        <p:column><i class="#{item.tipotarjeta}" /> #{item.tipotarjeta} 
+                                        </p:column>
+
+
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel for="@previous" value="#{msg['field.tipotarjeta']}" />
+                                            <p:message for="@previous" />
+                                </span>
+                            </div>
+                            <div class="field">
+                                <span class="ui-float-label">
+
+                                    <p:selectOneMenu  value="#{tableroFaces.tarjetaEditarSelected.icono}" var="item"
+                                                      autoWidth="false"
+                                                      >
+                                        <f:selectItems value="#{tableroFaces.iconoList}"  var="item" 
+                                                       itemLabel=""
+                                                       itemValue="#{item}" />
+                                        <p:column>
+                                            <i class="#{item.icono}" />  </p:column>
+
+                                        <p:ajax update="@parent:@parent:icon" />
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel for="@previous" id="icon" value="#{msg['field.icono']}" >
+                                        <i class="#{tableroFaces.tarjetaEditarSelected.icono.icono}"/>
+                                    </p:outputLabel>
+                                            <p:message for="@previous" />
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
