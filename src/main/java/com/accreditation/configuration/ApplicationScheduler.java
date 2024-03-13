@@ -214,24 +214,6 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
                             System.out.println("\t\t\tDias pendientes " + diasPendientes(t) + " Inicial " + showDate(t.getFechainicial()) + " final " + showDate(t.getFechafinal()));
                            
                               tarjetaEmails.add(t);
-//                            System.out.println(" analizare si es o no foreano");
-//                            System.out.println(" tarea.toString() "+t.toString());
-//                            if (t.getForeaneo()) {
-//                                System.out.println("{{{}}}} es foraneo.....");
-//                                System.out.println("userView.getIduser() "+userView.getIduser());
-//                                System.out.println("t.getUserView().size() "+t.getUserView().size());
-//                                if (t.getUserView().get(0).getIduser().equals(userView.getIduser())) {
-//
-//                                } else {
-//                                    System.out.println("\t\t\t\t addd tarjeta step a");
-//                                    tarjetaEmails.add(t);
-//                                    System.out.println("\t\t\t\t addd tarjeta step a.1");
-//                                }
-//                            } else {
-//                                System.out.println("\t\t\t\t No es foraeno addd tarjeta step b");
-//                                tarjetaEmails.add(t);
-//                                System.out.println("\t\t\t\t addd tarjeta step b.1");
-//                            }
 
                         }
                         System.out.println("voy a enviar el correo ");
@@ -319,6 +301,7 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
                     if (proyecto.isPresent()) {
                         mensajeEmail += "<strong>" + "Proyecto " + ":</strong>" + "  " + proyecto.get().getProyecto() + " <br>"
                                 + "Tarjeta" + ": " + t.getTarjeta() + "<br>"
+                                + "#" + ": " + t.getIdtarjeta() + "<br>"
                                 + "<strong>" + "Descripcion"+ ": " + "</strong>" + t.getDescripcion() + "<br>"
                                 + "Fecha de vencimiento" + " <strong>" + showDate(t.getFechainicial())  + "</strong><br><br>"
                                 + "Fecha de vencimiento" + " <strong>" + showDate(t.getFechainicial())  + "</strong><br><br>"
