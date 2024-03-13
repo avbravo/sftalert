@@ -21,7 +21,7 @@
         <jmeter.version>2.6.0</jmeter.version>
         <final.name>sftalert</final.name>
         
-        <version.jmoordbcore>1.0.0.b-8</version.jmoordbcore>
+        <version.jmoordbcore>1.0.0.b-9</version.jmoordbcore>
         <version.jmoordbfaces>1.3</version.jmoordbfaces>
         <version.jmoordbutilfaces>0.7</version.jmoordbutilfaces>
         <version.jmoordbencripter>2.0</version.jmoordbencripter>
@@ -119,13 +119,13 @@
         <!--
         jmoordb-core
         -->
-        <dependency>
+       <dependency>
             <groupId>com.github.avbravo</groupId>
             <artifactId>jmoordb-core</artifactId>
             <version>${version.jmoordbcore}</version>
         </dependency>
-       
-       <dependency>
+      
+        <dependency>
             <groupId>com.github.avbravo</groupId>
             <artifactId>jmoordbencripter</artifactId>
             <version>${version.jmoordbencripter}</version>

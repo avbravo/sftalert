@@ -16,8 +16,9 @@ import com.jmoordb.core.annotation.repository.Repository;
 import com.jmoordb.core.model.Search;
 import com.jmoordb.core.repository.CrudRepository;
 import com.accreditation.model.Applicative;
-import com.accreditation.model.Applicative;
+import com.jmoordb.core.annotation.repository.Find;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -25,6 +26,9 @@ import java.util.List;
  */
 @Repository(entity = Applicative.class)
 public interface ApplicativeRepository extends CrudRepository<Applicative, Long> {
+    
+      @Find
+    public Optional<Applicative> findByByIdApplicative(Long applicative);
        @Ping
     public Boolean ping();
        @Lookup

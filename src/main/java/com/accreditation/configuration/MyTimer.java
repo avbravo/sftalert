@@ -64,19 +64,26 @@ public class MyTimer implements Serializable {
 
 
     public void initTimer(String message){
-        context.getTimerService().createTimer(10000, message);
+        context.getTimerService().createTimer(1000, message);
     }
 
     @Timeout
     public void execute(){
         logger.info("Starting");
-        System.out.println(" Ejecutando .............");
-        context.getTimerService().getAllTimers().stream().forEach(timer -> logger.info(String.valueOf(timer.getInfo())));
+        System.out.println(" []###################################################Ejecutando .............");
+        context.getTimerService().getAllTimers().stream().forEach(
+                timer -> logger.info(String.valueOf(timer.getInfo()))
+        
+        );
         
 
         logger.info("Ending");
     }    
 
+    
+    public void saludo(){
+        System.out.println("[]saludo [] "); 
+    }
     public void verify() {
         try {
             ejecuciones++;
