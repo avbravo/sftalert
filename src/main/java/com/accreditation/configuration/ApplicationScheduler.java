@@ -81,14 +81,20 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
     UserViewRepository userViewRepository;
 // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="ApplicationScheduler()">
+
     /**
      * Creates a new instance of ApplicationStart
      */
     public ApplicationScheduler() {
     }
+// </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="void verify()">
 
+    @Schedule(second = "25", minute = "28,40", hour = "9" ,persistent = false)
 //    @Schedule(second = "25", minute = "15", hour = "20" ,persistent = false)
-    @Schedule(second = "*/50", minute = "*/3", hour = "*", persistent = false)
+//    @Schedule(second = "*/50", minute = "*/3", hour = "*", persistent = false)
 //   @Schedule(minute = "*/2", hour = "*", persistent = false)
 
     public void verify() {
@@ -121,23 +127,19 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
         }
 
     }
-
+// </editor-fold>
+    
 // <editor-fold defaultstate="collapsed" desc="Boolean procesandoUser()">
     public Boolean procesandoUser() {
         try {
             System.out.println("=====================================================");
-
             Bson filterActive = eq("active", Boolean.TRUE);
-
             Bson filter = and(filterActive);
             Document sort = new Document("iduser", -1);
             Integer page = 1;
             Integer size = rowPage.get();
-
             Search searchCount = DocumentUtil.convertForLookup(filter, sort, 0, 0);
             Integer totalRecords = tarjetaRepository.count(searchCount).intValue();
-
-//            System.out.println("total Registros " + totalRecords);
             Integer totalPage = numberOfPages(totalRecords, rowPage.get());
             if (totalPage.equals(0L)) {
                 System.out.println("\t\t\tNo hay usuarios para analizar");
@@ -154,7 +156,6 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
                             System.out.println("*****************************************************************");
                         }
                     }
-
                 }
             }
             System.out.println("=====================================================");
@@ -164,6 +165,7 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
         return Boolean.FALSE;
     }
 // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Boolean procesandoTarjetas(Long iduser)  ">
 
     public Boolean procesandoTarjetas(UserView userView) {
@@ -218,10 +220,12 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
     }
 
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Integer numberOfPages(Integer rows, Integer rowForPage)">
+
     static Integer numberOfPages(Integer rows, Integer rowForPage) {
         Integer numberOfPage = 1;
         try {
-
             if (rows > 0) {
                 numberOfPage = rows / rowForPage;
                 if ((rows % rowForPage) > 0) {
@@ -233,12 +237,12 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
                     "------------------------------------------------------------------------------------------------");
             MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + "error: " + e.getLocalizedMessage());
             System.out.println("Error " + e.getLocalizedMessage());
-            System.out.println(
-                    "------------------------------------------------------------------------------------------------");
-
+            System.out.println(                    "------------------------------------------------------------------------------------------------");
         }
         return numberOfPage;
     }
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="void preDestroy()">
 
     @Override
     public void preDestroy() {
