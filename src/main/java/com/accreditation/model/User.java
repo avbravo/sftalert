@@ -54,6 +54,9 @@ public class User {
 
     @Column
     private Boolean active;
+    
+    @Column
+    private Boolean recibirNotificacion;
     @Column
     private String theme;
 
@@ -63,7 +66,7 @@ public class User {
     public User() {
     }
 
-    public User(Long iduser, String username, String cellphone, String email, String identificationcard, String sex, String socialsecuritynumber, String name, String password, String photo, Date dateofbirth, CentralView centralView, List<Profile> profile, Boolean active, String theme, List<ActionHistory> actionHistory) {
+    public User(Long iduser, String username, String cellphone, String email, String identificationcard, String sex, String socialsecuritynumber, String name, String password, String photo, Date dateofbirth, CentralView centralView, List<Profile> profile, Boolean active, Boolean recibirNotificacion, String theme, List<ActionHistory> actionHistory) {
         this.iduser = iduser;
         this.username = username;
         this.cellphone = cellphone;
@@ -78,6 +81,7 @@ public class User {
         this.centralView = centralView;
         this.profile = profile;
         this.active = active;
+        this.recibirNotificacion = recibirNotificacion;
         this.theme = theme;
         this.actionHistory = actionHistory;
     }
@@ -194,6 +198,14 @@ public class User {
         this.active = active;
     }
 
+    public Boolean getRecibirNotificacion() {
+        return recibirNotificacion;
+    }
+
+    public void setRecibirNotificacion(Boolean recibirNotificacion) {
+        this.recibirNotificacion = recibirNotificacion;
+    }
+
     public String getTheme() {
         return theme;
     }
@@ -211,48 +223,25 @@ public class User {
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("User{");
-        sb.append("iduser=").append(iduser);
-        sb.append(", username=").append(username);
-        sb.append(", cellphone=").append(cellphone);
-        sb.append(", email=").append(email);
-        sb.append(", identificationcard=").append(identificationcard);
-        sb.append(", sex=").append(sex);
-        sb.append(", socialsecuritynumber=").append(socialsecuritynumber);
-        sb.append(", name=").append(name);
-        sb.append(", password=").append(password);
-        sb.append(", photo=").append(photo);
-        sb.append(", dateofbirth=").append(dateofbirth);
-        sb.append(", centralView=").append(centralView);
-        sb.append(", profile=").append(profile);
-        sb.append(", active=").append(active);
-        sb.append(", theme=").append(theme);
-        sb.append(", actionHistory=").append(actionHistory);
-        sb.append('}');
-        return sb.toString();
-    }
-
-    @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.iduser);
-        hash = 37 * hash + Objects.hashCode(this.username);
-        hash = 37 * hash + Objects.hashCode(this.cellphone);
-        hash = 37 * hash + Objects.hashCode(this.email);
-        hash = 37 * hash + Objects.hashCode(this.identificationcard);
-        hash = 37 * hash + Objects.hashCode(this.sex);
-        hash = 37 * hash + Objects.hashCode(this.socialsecuritynumber);
-        hash = 37 * hash + Objects.hashCode(this.name);
-        hash = 37 * hash + Objects.hashCode(this.password);
-        hash = 37 * hash + Objects.hashCode(this.photo);
-        hash = 37 * hash + Objects.hashCode(this.dateofbirth);
-        hash = 37 * hash + Objects.hashCode(this.centralView);
-        hash = 37 * hash + Objects.hashCode(this.profile);
-        hash = 37 * hash + Objects.hashCode(this.active);
-        hash = 37 * hash + Objects.hashCode(this.theme);
-        hash = 37 * hash + Objects.hashCode(this.actionHistory);
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.iduser);
+        hash = 23 * hash + Objects.hashCode(this.username);
+        hash = 23 * hash + Objects.hashCode(this.cellphone);
+        hash = 23 * hash + Objects.hashCode(this.email);
+        hash = 23 * hash + Objects.hashCode(this.identificationcard);
+        hash = 23 * hash + Objects.hashCode(this.sex);
+        hash = 23 * hash + Objects.hashCode(this.socialsecuritynumber);
+        hash = 23 * hash + Objects.hashCode(this.name);
+        hash = 23 * hash + Objects.hashCode(this.password);
+        hash = 23 * hash + Objects.hashCode(this.photo);
+        hash = 23 * hash + Objects.hashCode(this.dateofbirth);
+        hash = 23 * hash + Objects.hashCode(this.centralView);
+        hash = 23 * hash + Objects.hashCode(this.profile);
+        hash = 23 * hash + Objects.hashCode(this.active);
+        hash = 23 * hash + Objects.hashCode(this.recibirNotificacion);
+        hash = 23 * hash + Objects.hashCode(this.theme);
+        hash = 23 * hash + Objects.hashCode(this.actionHistory);
         return hash;
     }
 
@@ -313,8 +302,15 @@ public class User {
         if (!Objects.equals(this.active, other.active)) {
             return false;
         }
+        if (!Objects.equals(this.recibirNotificacion, other.recibirNotificacion)) {
+            return false;
+        }
         return Objects.equals(this.actionHistory, other.actionHistory);
     }
 
+    @Override
+    public String toString() {
+        return "User{" + "iduser=" + iduser + ", username=" + username + ", cellphone=" + cellphone + ", email=" + email + ", identificationcard=" + identificationcard + ", sex=" + sex + ", socialsecuritynumber=" + socialsecuritynumber + ", name=" + name + ", password=" + password + ", photo=" + photo + ", dateofbirth=" + dateofbirth + ", centralView=" + centralView + ", profile=" + profile + ", active=" + active + ", recibirNotificacion=" + recibirNotificacion + ", theme=" + theme + ", actionHistory=" + actionHistory + '}';
+    }
     
 }

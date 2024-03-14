@@ -10,7 +10,7 @@ docker build -t payara-hello .
 
 ```
 
-# accreditation
+# sftalert
 sistema de accreditaciones
 
 
@@ -18,22 +18,22 @@ sistema de accreditaciones
 #Execute docker compose
 docker-compose up -d
 
-java -jar -Xmx512m target/accreditation.jar 
+java -jar -Xmx512m target/sftalert.jar 
 
 
 
 Para ejecutar uberjar
-java -jar payara-micro-6.2024.2.jar --deploy accreditation.war --outputUberJar accreditation.jar
+java -jar payara-micro-6.2024.2.jar --deploy sftalert.war --outputUberJar sftalert.jar
 
 
 #Ejecutar el war
 
 
-java -jar /home/avbravo/software/payara/c.jar  --deploy /home/avbravo/NetBeansProjects/u/utp/accreditation-stack/master/accreditation/target/accreditation.war --noHazelcast --logo --port 9002
+java -jar /home/avbravo/software/payara/c.jar  --deploy /home/avbravo/NetBeansProjects/u/utp/sftalert-stack/master/sftalert/target/sftalert.war --noHazelcast --logo --port 9002
 
 
 #Crear  el Uberjar
-java -jar   /home/avbravo/software/payara/payara-micro-6.2024.2.jar --deploy /home/avbravo/NetBeansProjects/u/utp/accreditation/accreditation/target/accreditation.war --outputUberJar /home/avbravo/Descargas/accreditation.jar 
+java -jar   /home/avbravo/software/payara/payara-micro-6.2024.2.jar --deploy /home/avbravo/NetBeansProjects/u/utp/sftalert/sftalert/target/sftalert.war --outputUberJar /home/avbravo/Descargas/sftalert.jar 
 
 
 
@@ -41,7 +41,7 @@ java -jar   /home/avbravo/software/payara/payara-micro-6.2024.2.jar --deploy /ho
 
 Use --noHazelcast en lugar de --nocluster
  
- java -jar -Xmx512m accreditation.jar --noHazelcast --logo --port 9002 >>log.txt
+ java -jar -Xmx512m sftalert.jar --noHazelcast --logo --port 9002 >>log.txt
 
 
 ## Mediante maven
@@ -76,7 +76,7 @@ mvn clean verify payara-micro:bundle
 
 cd target
 
-java -jar accreditation-bundle.jar
+java -jar sftalert-bundle.jar
 ````
 
 #@ViewEntity

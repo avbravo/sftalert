@@ -82,17 +82,15 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="ApplicationScheduler()">
-
     /**
      * Creates a new instance of ApplicationStart
      */
     public ApplicationScheduler() {
     }
 // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="void verify()">
 
-    @Schedule(second = "25", minute = "28,40", hour = "9" ,persistent = false)
+    // <editor-fold defaultstate="collapsed" desc="void verify()">
+    @Schedule(second = "30", minute = "25", hour = "9", persistent = false)
 //    @Schedule(second = "25", minute = "15", hour = "20" ,persistent = false)
 //    @Schedule(second = "*/50", minute = "*/3", hour = "*", persistent = false)
 //   @Schedule(minute = "*/2", hour = "*", persistent = false)
@@ -128,7 +126,7 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
 
     }
 // </editor-fold>
-    
+
 // <editor-fold defaultstate="collapsed" desc="Boolean procesandoUser()">
     public Boolean procesandoUser() {
         try {
@@ -150,10 +148,13 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
                     if (list == null || list.isEmpty()) {
                     } else {
                         for (UserView uv : list) {
-                            System.out.println("*****************************************************************");
-                            System.out.println("\t\t(iduser) " + uv.getIduser() + " () " + uv.getName());
-                            procesandoTarjetas(uv);
-                            System.out.println("*****************************************************************");
+                            if (uv.getRecibirNotificacion()) {
+                                System.out.println("*****************************************************************");
+                                System.out.println("\t\t(iduser) " + uv.getIduser() + " () " + uv.getName());
+                                procesandoTarjetas(uv);
+                                System.out.println("*****************************************************************");
+                            }
+
                         }
                     }
                 }
@@ -165,9 +166,8 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
         return Boolean.FALSE;
     }
 // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Boolean procesandoTarjetas(Long iduser)  ">
 
+    // <editor-fold defaultstate="collapsed" desc="Boolean procesandoTarjetas(Long iduser)  ">
     public Boolean procesandoTarjetas(UserView userView) {
         try {
             Long iduser = userView.getIduser();
@@ -220,9 +220,7 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="Integer numberOfPages(Integer rows, Integer rowForPage)">
-
     static Integer numberOfPages(Integer rows, Integer rowForPage) {
         Integer numberOfPage = 1;
         try {
@@ -237,7 +235,7 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
                     "------------------------------------------------------------------------------------------------");
             MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + "error: " + e.getLocalizedMessage());
             System.out.println("Error " + e.getLocalizedMessage());
-            System.out.println(                    "------------------------------------------------------------------------------------------------");
+            System.out.println("------------------------------------------------------------------------------------------------");
         }
         return numberOfPage;
     }
