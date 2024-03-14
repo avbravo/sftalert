@@ -6,9 +6,7 @@
 package com.accreditation.configuration;
 
 import com.accreditation.model.Applicative;
-import com.accreditation.model.Comentario;
 import com.accreditation.model.Proyecto;
-import com.accreditation.model.ProyectoMiembro;
 import com.accreditation.model.Tarjeta;
 import com.accreditation.model.UserView;
 import com.accreditation.repository.ApplicativeRepository;
@@ -31,16 +29,11 @@ import jakarta.inject.Inject;
 import jakarta.inject.Provider;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.IntStream;
+import java.util.stream.Collectors;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.eclipse.microprofile.config.Config;
@@ -68,6 +61,7 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="fields()">
     Applicative applicative = new Applicative();
+    List<Proyecto> proyectos = new ArrayList<>();
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="@Event">
     @Inject
@@ -93,18 +87,18 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
     public ApplicationScheduler() {
     }
 
-//    @Schedule(second = "15", minute = "48", hour = "21" ,persistent = false)
-    @Schedule(second = "*/50", minute = "*/2", hour = "*", persistent = false)
+//    @Schedule(second = "25", minute = "15", hour = "20" ,persistent = false)
+    @Schedule(second = "*/50", minute = "*/3", hour = "*", persistent = false)
 //   @Schedule(minute = "*/2", hour = "*", persistent = false)
 
     public void verify() {
         try {
-            System.out.println("Buscando el aplicative "+idapplicative.get().longValue());
+//            System.out.println("Buscando el aplicative " + idapplicative.get().longValue());
             Optional<Applicative> applicative = applicativeRepository.findByByIdApplicative(idapplicative.get().longValue());
             if (applicative.isPresent()) {
-                System.out.println("encontrado");
+//                System.out.println("encontrado");
             } else {
-                System.out.println("No encontrado");
+                System.out.println("No encontro applicative");
             }
             // applicative.get().getEmailconfiguration()
             JmoordbCronometer.startCronometer(MessagesUtil.nameOfClassAndMethod());
@@ -120,17 +114,19 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
             System.out.println(" Voy a detener [" + ejecuciones + "] at" + new Date());
             System.out.println("...........................................................");
             JmoordbCronometer.endCronometer(MessagesUtil.nameOfClassAndMethod(), "\t\t userLogged.getName()");
+
+            proyectos = new ArrayList<>();
         } catch (Exception e) {
             MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + " error: " + e.getLocalizedMessage());
         }
 
     }
 
-// <editor-fold defaultstate="collapsed" desc="methods()">
+// <editor-fold defaultstate="collapsed" desc="Boolean procesandoUser()">
     public Boolean procesandoUser() {
         try {
             System.out.println("=====================================================");
-            
+
             Bson filterActive = eq("active", Boolean.TRUE);
 
             Bson filter = and(filterActive);
@@ -147,7 +143,6 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
                 System.out.println("\t\t\tNo hay usuarios para analizar");
             } else {
                 for (int j = 1; j <= totalPage; j++) {
-//                    System.out.println(">[ Pagina user ]" + j);
                     Search search = DocumentUtil.convertForLookup(filter, sort, j, size);
                     var list = userViewRepository.lookup(search);
                     if (list == null || list.isEmpty()) {
@@ -174,7 +169,7 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
     public Boolean procesandoTarjetas(UserView userView) {
         try {
             Long iduser = userView.getIduser();
-            System.out.println("\t\t\t{Procesando tarjeta para iduser [" + iduser + "]}");
+
             Bson filterUser = eq("user.iduser", iduser);
             Bson filterActive = eq("active", Boolean.TRUE);
             Bson filterColumna = or(eq("columna", "pendiente"), eq("columna", "progreso"));
@@ -185,45 +180,36 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
 
             Search searchCount = DocumentUtil.convertForLookup(filter, sort, 0, 0);
             Integer totalRecords = tarjetaRepository.count(searchCount).intValue();
-            System.out.println("\t\t\t{total Registros " + totalRecords + "}");
+
             Integer totalPage = numberOfPages(totalRecords, rowPage.get());
             if (totalPage.equals(0L)) {
                 System.out.println("\t\t\t{tNo hay tarjetas para analizar}");
             } else {
+                String nameProyecto = "";
+                List<Tarjeta> tarjetaEmails = new ArrayList<>();
                 for (int j = 1; j <= totalPage; j++) {
-//                    System.out.println("\t\t\t{[ Pagina ]" + j+"}");
+
                     Search search = DocumentUtil.convertForLookup(filter, sort, j, size);
 
                     var list = tarjetaRepository.lookup(search);
                     if (list == null || list.isEmpty()) {
-//                        System.out.println(" pagina es empty ");
-//                        System.out.println("toJson() " + filter.toBsonDocument().toJson());
                     } else {
-                        String nameProyecto = "";
-                        List<Tarjeta> tarjetaEmails = new ArrayList<>();
+
                         for (Tarjeta t : list) {
-
-                            Optional<Proyecto> proyecto = proyectoRepository.findByPk(t.getIdproyecto());
-                            if (proyecto.isPresent()) {
-                                nameProyecto = proyecto.get().getProyecto();
-                            } else {
-                                System.out.println("No pertenece a ningun proyecto tarjeta" + t.getIdtarjeta());
-                            }
-
-                            System.out.println("\t\t\t{ " + t.getIdtarjeta() + " " + t.getTarjeta() + " proyecto" + nameProyecto + "}");
-                            System.out.println("\t\t\tDias pendientes " + diasPendientes(t) + " Inicial " + showDate(t.getFechainicial()) + " final " + showDate(t.getFechafinal()));
-                           
-                              tarjetaEmails.add(t);
+                            tarjetaEmails.add(t);
 
                         }
-                        System.out.println("voy a enviar el correo ");
-//                        if(userView.getIduser().equals(8)){
-                            System.out.println(" Enviare correeo");
-                            sendEmailTarjeta(tarjetaEmails, userView, "enviando correo");
-//                        }
+
                     }
 
                 }
+                if (tarjetaEmails == null || tarjetaEmails.isEmpty()) {
+
+                } else {
+                    tarjetaEmails = tarjetaEmails.stream().sorted(Comparator.comparing(Tarjeta::getIdtarjeta).reversed()).collect(Collectors.toList());
+                    sendEmailTarjeta(tarjetaEmails, userView, "enviando correo");
+                }
+
             }
         } catch (Exception e) {
             MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + "error: " + e.getLocalizedMessage());
@@ -232,7 +218,6 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
     }
 
     // </editor-fold>
-
     static Integer numberOfPages(Integer rows, Integer rowForPage) {
         Integer numberOfPage = 1;
         try {
@@ -265,7 +250,6 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
     public void sendEmailTarjeta(List<Tarjeta> tarjetaEmails, UserView userView, String evento) {
         try {
 
-
             List<String> emailList = new ArrayList<>();
 
             /**
@@ -295,27 +279,56 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
                 });
 
                 emailList = list;
-
+                String backlogMessage = "<br>";
+                String nameOfProject = "";
                 for (Tarjeta t : tarjetaEmails) {
-                    Optional<Proyecto> proyecto = proyectoRepository.findByPk(t.getIdproyecto());
-                    if (proyecto.isPresent()) {
-                        mensajeEmail += "<strong>" + "Proyecto " + ":</strong>" + "  " + proyecto.get().getProyecto() + " <br>"
-                                + "Tarjeta" + ": " + t.getTarjeta() + "<br>"
-                                + "#" + ": " + t.getIdtarjeta() + "<br>"
-                                + "<strong>" + "Descripcion"+ ": " + "</strong>" + t.getDescripcion() + "<br>"
-                                + "Fecha de vencimiento" + " <strong>" + showDate(t.getFechainicial())  + "</strong><br><br>"
-                                + "Fecha de vencimiento" + " <strong>" + showDate(t.getFechainicial())  + "</strong><br><br>"
-                                + "Dias pendientes" + " <strong>" + diasPendientes(t)  + "</strong><br><br>"
-                                + "<strong>" + "Visite " + "</strong>" + " <a href=\"" + applicative.getPath() + "\">SFT</a>" + "<br><br>";
-                    } else {
-                        System.out.println("No pertenece a ningun proyecto tarjeta" + t.getIdtarjeta());
+
+                    backlogMessage = "<br>";
+                    nameOfProject = "";
+                    if (t.getBacklog() && t.getIdsprint().equals(0L)) {
+                        backlogMessage = "<strong> Esta tarjeta se encuentra en la reserva</strong><br><br>";
                     }
+
+                    if (proyectos == null || proyectos.isEmpty()) {
+                        Optional<Proyecto> proyecto = proyectoRepository.findByPk(t.getIdproyecto());
+                        if (proyecto.isPresent()) {
+                            nameOfProject = proyecto.get().getProyecto();
+                            proyectos.add(proyecto.get());
+                        }
+                    } else {
+                        for (Proyecto p : proyectos) {
+                            if (p.getIdproyecto().equals(t.getIdproyecto())) {
+                                nameOfProject = p.getProyecto();
+                            }
+                        }
+                        if (nameOfProject.isEmpty() || nameOfProject.equals("")) {
+                            Optional<Proyecto> proyecto = proyectoRepository.findByPk(t.getIdproyecto());
+                            if (proyecto.isPresent()) {
+                                nameOfProject = proyecto.get().getProyecto();
+                                proyectos.add(proyecto.get());
+                            }
+                        }
+
+                    }
+                   
+                        mensajeEmail += "<strong>" + "Proyecto " + ":</strong>" + "  " + nameOfProject + " <br>"
+                                + "<strong>Tarjeta" + ": </strong>" + t.getTarjeta() + "<br>"
+                                + "<strong>#" + ":</strong> " + t.getIdtarjeta() + "<br>"
+                                + "<strong>" + "Descripcion" + ": " + "</strong>" + t.getDescripcion() + "<br>"
+                                + "<strong>Fecha inicial" + " </strong>" + showDate(t.getFechainicial()) + ""
+                                + "<strong>Fecha final" + " </strong>" + showDate(t.getFechafinal()) + "><br>"
+                                + "<strong>Dias pendientes:" + " </strong>" + diasPendientes(t) + "<br>"
+                                + backlogMessage
+                                + "<hr>";
+
+                   
 
                 }
                 if (emailList == null || emailList.isEmpty()) {
 
                 } else {
-                    tituloEmail += " " + " Notificaciones de tarjetas";
+                    mensajeEmail += "<strong>" + "Visite " + "</strong>" + " <a href=\"" + applicative.getPath() + "\">SFT</a>" + "<br><br>";
+                    tituloEmail += " " + " Resumen de Tarjetas pendiente y en progreso SFT";
                     EmailSender emailSender = new EmailSender.Builder()
                             .header(tituloEmail)
                             .messages(mensajeEmail)
@@ -326,7 +339,6 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
                     System.out.println("enviando el correo de notificacion");
                     emailSenderEvent.fire(new EmailSenderEvent(emailSender));
                 }
-
 
             }
 
