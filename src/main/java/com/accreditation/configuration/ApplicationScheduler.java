@@ -310,24 +310,22 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
                         }
 
                     }
-                   
-                        mensajeEmail += "<strong>" + "Proyecto " + ":</strong>" + "  " + nameOfProject + " <br>"
-                                + "<strong>Tarjeta" + ": </strong>" + t.getTarjeta() + "<br>"
-                                + "<strong>#" + ":</strong> " + t.getIdtarjeta() + "<br>"
-                                + "<strong>" + "Descripcion" + ": " + "</strong>" + t.getDescripcion() + "<br>"
-                                + "<strong>" + "Columna" + ": " + "</strong>" + t.getColumna()+ "<br>"
-                                + "<strong>Fecha inicial" + " </strong>" + showDate(t.getFechainicial()) + "    "
-                                + "<strong>Fecha final" + " </strong>" + showDate(t.getFechafinal()) + "><br>"
-                                + "<strong>Dias pendientes:" + " </strong>" + diasPendientes(t) + "<br>"
-                                + "<strong>Comentarios:" + " </strong>" + t.getComentario().size() + " "
-                                + "<strong>Tareas:" + " </strong>" + t.getTarea().size() + " "
-                                + "<strong>Impedimentos:" + " </strong>" + t.getImpedimento().size() + " "
-                                + "<strong>Archivos:" + " </strong>" + t.getArchivo().size() + " "
-                                + "<strong>Etiquetas:" + " </strong>" + t.getEtiqueta().size() + "<br>"
-                                + backlogMessage
-                                + "<hr>";
 
-                   
+                    mensajeEmail += "<strong>" + "Proyecto " + ":</strong>" + "  " + nameOfProject + " <br>"
+                            + "<strong>Tarjeta" + ": </strong>" + t.getTarjeta() + "<br>"
+                            + "<strong>#" + ":</strong> " + t.getIdtarjeta() + "<br>"
+                            + "<strong>" + "Descripcion" + ": " + "</strong>" + t.getDescripcion() + "<br>"
+                            + "<strong>" + "Columna" + ": " + "</strong>" + t.getColumna() + "<br>"
+                            + "<strong>Fecha inicial" + " </strong>" + showDate(t.getFechainicial()) + "    "
+                            + "<strong>Fecha final" + " </strong>" + showDate(t.getFechafinal()) + "><br>"
+                            + "<strong>Dias pendientes:" + " </strong>" + diasPendientes(t) + "<br>"
+                            + "<strong>Comentarios:" + " </strong>" + t.getComentario().size() + " "
+                            + "<strong>Tareas:" + " </strong>" + t.getTarea().size() + " "
+                            + "<strong>Impedimentos:" + " </strong>" + t.getImpedimento().size() + " "
+                            + "<strong>Archivos:" + " </strong>" + t.getArchivo().size() + " "
+                            + "<strong>Etiquetas:" + " </strong>" + t.getEtiqueta().size() + "<br>"
+                            + backlogMessage
+                            + "<hr>";
 
                 }
                 if (emailList == null || emailList.isEmpty()) {
