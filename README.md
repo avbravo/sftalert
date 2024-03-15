@@ -41,7 +41,7 @@ java -jar   /home/avbravo/software/payara/payara-micro-6.2024.2.jar --deploy /ho
 
 Use --noHazelcast en lugar de --nocluster
  
- java -jar -Xmx512m sftalert.jar --noHazelcast --logo --port 9002 >>log.txt
+ java -jar -Xmx512m sftalert.jar --noHazelcast --logo --port 9080 >>log.txt
 
 
 ## Mediante maven

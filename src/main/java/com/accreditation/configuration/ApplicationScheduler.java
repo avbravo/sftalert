@@ -90,10 +90,12 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="void verify()">
-    @Schedule(second = "30", minute = "25", hour = "9", persistent = false)
-//    @Schedule(second = "*/50", minute = "*/2", hour = "*", persistent = false)
+    
+    @Schedule(second = "30", minute = "25", hour = "8", persistent = false)
+  
+  
 
-    public void verify() {
+    public void schedule() {
         try {
 //            System.out.println("Buscando el aplicative " + idapplicative.get().longValue());
             Optional<Applicative> applicative = applicativeRepository.findByByIdApplicative(idapplicative.get().longValue());
