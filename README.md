@@ -29,7 +29,7 @@ java -jar payara-micro-6.2024.3.jar --deploy sftalert.war --outputUberJar sftale
 #Ejecutar el war
 
 
-java -jar /home/avbravo/software/payara/c.jar  --deploy /home/avbravo/NetBeansProjects/u/utp/sftalert-stack/master/sftalert/target/sftalert.war --noHazelcast --logo --port 9002
+java -jar /home/avbravo/software/payara/c.jar  --deploy /home/avbravo/NetBeansProjects/u/utp/sftalert-stack/master/sftalert/target/sftalert.war --noHazelcast --logo --port 9080
 
 
 #Crear  el Uberjar
