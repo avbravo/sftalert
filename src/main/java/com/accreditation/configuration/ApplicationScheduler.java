@@ -91,9 +91,7 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
 
     // <editor-fold defaultstate="collapsed" desc="void verify()">
     @Schedule(second = "30", minute = "25", hour = "9", persistent = false)
-//    @Schedule(second = "25", minute = "15", hour = "20" ,persistent = false)
-//    @Schedule(second = "*/50", minute = "*/3", hour = "*", persistent = false)
-//   @Schedule(minute = "*/2", hour = "*", persistent = false)
+//    @Schedule(second = "*/50", minute = "*/2", hour = "*", persistent = false)
 
     public void verify() {
         try {
