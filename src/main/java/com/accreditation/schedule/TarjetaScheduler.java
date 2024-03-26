@@ -327,7 +327,7 @@ public class TarjetaScheduler implements Serializable, JmoordbCoreXHTMLUtil {
                             + "<strong>Dias pendientes:" + " </strong>" + diasPendientes(t) + "<br>"
                             + "<strong>Comentarios:" + " </strong>" + t.getComentario().size() + " "
                             + "<strong>Tareas:" + " </strong>" + t.getTarea().size() + " "
-                            + "<strong>Impedimentos:" + " </strong>" + t.getImpedimento().size() + " "
+                            + "<stroMejorar el procedimiento de ordenación de tarjetas en base a la ultima modificacion realizada.ng>Impedimentos:" + " </strong>" + t.getImpedimento().size() + " "
                             + "<strong>Archivos:" + " </strong>" + t.getArchivo().size() + " "
                             + "<strong>Etiquetas:" + " </strong>" + t.getEtiqueta().size() + "<br>"
                             + backlogMessage
