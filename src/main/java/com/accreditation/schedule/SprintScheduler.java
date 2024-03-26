@@ -5,19 +5,23 @@
  */
 package com.accreditation.schedule;
 
+import com.accreditation.configuration.DateUtil;
 import com.accreditation.configuration.JmoordbCoreXHTMLUtil;
 import com.accreditation.configuration.JmoordbCronometer;
 import com.accreditation.model.Applicative;
 import com.accreditation.model.Proyecto;
+import com.accreditation.model.Sprint;
 import com.accreditation.model.Tarjeta;
 import com.accreditation.model.UserView;
 import com.accreditation.repository.ApplicativeRepository;
 import com.accreditation.repository.ProyectoRepository;
+import com.accreditation.repository.SprintRepository;
 import com.accreditation.repository.TarjetaRepository;
 import com.accreditation.repository.UserViewRepository;
 import com.jmoordb.core.model.Search;
 import com.jmoordb.core.util.ConsoleUtil;
 import com.jmoordb.core.util.DocumentUtil;
+import com.jmoordb.core.util.JmoordbCoreDateUtil;
 import com.jmoordb.core.util.MessagesUtil;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
@@ -30,10 +34,12 @@ import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.inject.Provider;
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.bson.Document;
@@ -80,6 +86,8 @@ public class SprintScheduler implements Serializable, JmoordbCoreXHTMLUtil {
     @Inject
     TarjetaRepository tarjetaRepository;
     @Inject
+    SprintRepository sprintRepository;
+    @Inject
     UserViewRepository userViewRepository;
 // </editor-fold>
 
@@ -92,12 +100,7 @@ public class SprintScheduler implements Serializable, JmoordbCoreXHTMLUtil {
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="void schedule()">
-    
-//    @Schedule(second = "30", minute = "25", hour = "8", persistent = false)
-//    @Schedule(second = "30", minute = "30", hour = "10", persistent = false)
-    @Schedule(second = "30", minute = "50", hour = "9", persistent = false)
-  
-  
+  //  @Schedule(second = "30", minute = "28", hour = "9", persistent = false)
 
     public void schedule() {
         try {
@@ -116,7 +119,7 @@ public class SprintScheduler implements Serializable, JmoordbCoreXHTMLUtil {
             ConsoleUtil.info("Ejecucion [" + ejecuciones + " ] at" + new Date());
             ConsoleUtil.info("_____________________________________________________________________");
 
-//            procesandoUser();
+            analizeProject();
 
             System.out.println("...........................................................");
             System.out.println(" Voy a detener [" + ejecuciones + "] at" + new Date());
@@ -131,34 +134,57 @@ public class SprintScheduler implements Serializable, JmoordbCoreXHTMLUtil {
     }
 // </editor-fold>
 
-// <editor-fold defaultstate="collapsed" desc="Boolean procesandoUser()">
-    public Boolean procesandoUser() {
+// <editor-fold defaultstate="collapsed" desc="Boolean analizeProject()">
+    public Boolean analizeProject() {
         try {
             System.out.println("=====================================================");
             Bson filterActive = eq("active", Boolean.TRUE);
-            Bson filter = and(filterActive);
-            Document sort = new Document("iduser", -1);
+            Bson filter = and(filterActive, eq("estado", "iniciado"));
+            Document sort = new Document("idproyecto", -1);
             Integer page = 1;
             Integer size = rowPage.get();
             Search searchCount = DocumentUtil.convertForLookup(filter, sort, 0, 0);
-            Integer totalRecords = tarjetaRepository.count(searchCount).intValue();
+            Integer totalRecords = proyectoRepository.count(searchCount).intValue();
             Integer totalPage = numberOfPages(totalRecords, rowPage.get());
             if (totalPage.equals(0L)) {
-                System.out.println("\t\t\tNo hay usuarios para analizar");
+                System.out.println("\t\t\tNo hay proyectos para analizar");
             } else {
                 for (int j = 1; j <= totalPage; j++) {
                     Search search = DocumentUtil.convertForLookup(filter, sort, j, size);
-                    var list = userViewRepository.lookup(search);
+                    var list = proyectoRepository.lookup(search);
                     if (list == null || list.isEmpty()) {
                     } else {
-                        for (UserView uv : list) {
-                            if (uv.getRecibirNotificacion()) {
-                                System.out.println("*****************************************************************");
-                                System.out.println("\t\t(iduser) " + uv.getIduser() + " () " + uv.getName());
-                                procesandoTarjetas(uv);
-                                System.out.println("*****************************************************************");
+                        for (Proyecto p : list) {
+                            System.out.println("\t Proyecto " + p.getIdproyecto() + " : " + p.getProyecto());
+                            Map.Entry<String, Optional<Sprint>> operation = loadOpenSprint(p);
+                            System.out.println("\t\t key " + operation.getKey() + " value " + operation.getValue().get());
+                            
+                   
+                            System.out.println("Hoy es "+DateUtil.nameOfDay(DateUtil.getFechaHoraActual()));
+                            switch (operation.getKey()) {
+                                case "valid between date":
+                                    break;
+                                case "not between date":
+                                    break;
+                                case "not found":
+                                    break;
+                                default:
+                                    break;
                             }
-
+//               operation.getKey()
+//               operation.getValue()
+//                            for (Map.Entry<String,Sprint> tuple : operation.) {
+//    System.out.println("key: " + tuple.getKey() + " value: " + tuple.getValue());
+//}
+//                            for (Map.Entry<String,Sprint>  tuple : operation) {
+//    System.out.println("key: " + tuple.getKey() + " value: " + tuple.getValue());
+//}
+//                            if (uv.getRecibirNotificacion()) {
+//                                System.out.println("*****************************************************************");
+//                                System.out.println("\t\t(iduser) " + uv.getIduser() + " () " + uv.getName());
+//                                procesandoTarjetas(uv);
+//                                System.out.println("*****************************************************************");
+//                            }
                         }
                     }
                 }
@@ -358,15 +384,77 @@ public class SprintScheduler implements Serializable, JmoordbCoreXHTMLUtil {
         }
     }
 // </editor-fold>
-    
-    
-     // <editor-fold defaultstate="collapsed" desc="Boolean loadProyectosDelColaborador()">
 
+    // <editor-fold defaultstate="collapsed" desc="Map.Entry<String, Optional<Sprint>> loadOpenSprint(Proyecto p)">
     /**
-     * Carga los proyectos a los que pertenece el colaborador
+     * Carga los sprint abiertos por proyectos
      *
+     * @param p
      * @return
      */
-    
+    private Map.Entry<String, Optional<Sprint>> loadOpenSprint(Proyecto p) {
+        Map.Entry<String, Optional<Sprint>> result;
+        try {
 
+            /**
+             * Cargo los Sprint
+             */
+            Integer page = 0;
+            Integer size = 0;
+            Bson filter = new Document("proyecto.idproyecto", p.getIdproyecto()).append("active", Boolean.TRUE)
+                    .append("open", Boolean.TRUE);
+            Document sort = new Document("proyecto.idproyecto", 1);
+            Search search = DocumentUtil.convertForLookup(filter, sort, 0, 0);
+            List<Sprint> sprintList = sprintRepository.lookup(search);
+
+            if (!sprintList.isEmpty()) {
+
+                if (!isOpenSprintBetweenDateNow(sprintList.getFirst())) {
+                    return new AbstractMap.SimpleEntry<>("not between date", Optional.of(sprintList.getFirst()));
+                } else {
+                    return new AbstractMap.SimpleEntry<>("valid between date", Optional.of(sprintList.getFirst()));
+                }
+
+            }
+
+            return new AbstractMap.SimpleEntry<>("not found", Optional.empty());
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + "error: " + e.getLocalizedMessage());
+        }
+        return new AbstractMap.SimpleEntry<>("not found", Optional.empty());
+    }
+// </editor-fold>
+
+    public Boolean isOpenSprintBetweenDateNow(Sprint sprint) {
+        var result = Boolean.FALSE;
+        try {
+
+            if (sprint == null) {
+                return result;
+            }
+
+            if ((JmoordbCoreDateUtil.fechaIgual(JmoordbCoreDateUtil.getFechaHoraActual(), sprint.getFechainicial())
+                    || JmoordbCoreDateUtil.fechaMayor(JmoordbCoreDateUtil.getFechaHoraActual(), sprint.getFechainicial()))
+                    && (JmoordbCoreDateUtil.fechaIgual(JmoordbCoreDateUtil.getFechaHoraActual(), sprint.getFechafinal())
+                    || JmoordbCoreDateUtil.fechaMenor(JmoordbCoreDateUtil.getFechaHoraActual(), sprint.getFechafinal()))) {
+
+                result = Boolean.TRUE;
+            }
+
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + "error: " + e.getLocalizedMessage());
+        }
+        return result;
+    }
+
+    public Integer diasPendientes(Sprint sprint) {
+        Integer result = 0;
+        try {
+//            result = DateUtil.diasEntreFechas(DateUtil.fechaActual(), tarjeta.getFechafinal());
+            result = DateUtil.diasEntreFechas(sprint.getFechafinal(), DateUtil.fechaActual());
+        } catch (Exception e) {
+            MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + "error: " + e.getLocalizedMessage());
+        }
+        return result;
+    }
 }
