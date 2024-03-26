@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.accreditation.configuration;
+package com.accreditation.schedule;
 
+import com.accreditation.configuration.JmoordbCoreXHTMLUtil;
+import com.accreditation.configuration.JmoordbCronometer;
 import com.accreditation.model.Applicative;
 import com.accreditation.model.Proyecto;
 import com.accreditation.model.Tarjeta;
@@ -44,7 +46,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
  * @author avbravo
  */
 @Stateless
-public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil {
+public class TarjetaScheduler implements Serializable, JmoordbCoreXHTMLUtil {
 
     // <editor-fold defaultstate="collapsed" desc="@Config">
     @Inject
@@ -81,11 +83,11 @@ public class ApplicationScheduler implements Serializable, JmoordbCoreXHTMLUtil 
     UserViewRepository userViewRepository;
 // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="ApplicationScheduler()">
+    // <editor-fold defaultstate="collapsed" desc="TarjetaScheduler()">
     /**
      * Creates a new instance of ApplicationStart
      */
-    public ApplicationScheduler() {
+    public TarjetaScheduler() {
     }
 // </editor-fold>
 
