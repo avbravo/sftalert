@@ -96,8 +96,7 @@ public class TarjetaScheduler implements Serializable, JmoordbCoreXHTMLUtil {
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="void schedule()">
-//    @Schedule(second = "30", minute = "50", hour = "9", persistent = false)
-    @Schedule(second = "30", minute = "24", hour = "10", persistent = false)
+    @Schedule(hour = "9",minute = "50",second = "30", persistent = false)
 
     public void schedule() {
         try {
