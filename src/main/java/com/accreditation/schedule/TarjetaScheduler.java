@@ -18,6 +18,7 @@ import com.accreditation.repository.UserViewRepository;
 import com.jmoordb.core.model.Search;
 import com.jmoordb.core.util.ConsoleUtil;
 import com.jmoordb.core.util.DocumentUtil;
+import com.jmoordb.core.util.JmoordbCoreDateUtil;
 import com.jmoordb.core.util.MessagesUtil;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
@@ -60,6 +61,7 @@ public class TarjetaScheduler implements Serializable, JmoordbCoreXHTMLUtil {
     @Inject
     @ConfigProperty(name = "idapplicative")
     private Provider<Integer> idapplicative;
+   
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="fields()">
     Applicative applicative = new Applicative();
@@ -71,6 +73,8 @@ public class TarjetaScheduler implements Serializable, JmoordbCoreXHTMLUtil {
     // <editor-fold defaultstate="collapsed" desc="fields">
     private static final long serialVersionUID = 1L;
     Long ejecuciones = 0L;
+    Integer milisegundosPausa = 1500;
+    String urlServer="http://congreso.ls.utp.ac.pa:8085/sft";
     // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="@Inject">
     @Inject
@@ -92,18 +96,19 @@ public class TarjetaScheduler implements Serializable, JmoordbCoreXHTMLUtil {
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="void schedule()">
-    
-    @Schedule(second = "30", minute = "50", hour = "9", persistent = false)
-  
-  
+//    @Schedule(second = "30", minute = "50", hour = "9", persistent = false)
+    @Schedule(second = "30", minute = "24", hour = "10", persistent = false)
 
     public void schedule() {
         try {
 //            System.out.println("Buscando el aplicative " + idapplicative.get().longValue());
-            Optional<Applicative> applicative = applicativeRepository.findByByIdApplicative(idapplicative.get().longValue());
-            if (applicative.isPresent()) {
+            Optional<Applicative> applicativeOptional = applicativeRepository.findByByIdApplicative(idapplicative.get().longValue());
+            if (applicativeOptional.isPresent()) {
 //                System.out.println("encontrado");
+applicative = applicativeOptional.get();
+        
             } else {
+                
                 System.out.println("No encontro applicative");
             }
             // applicative.get().getEmailconfiguration()
@@ -114,7 +119,8 @@ public class TarjetaScheduler implements Serializable, JmoordbCoreXHTMLUtil {
             ConsoleUtil.info("Ejecucion [" + ejecuciones + " ] at" + new Date());
             ConsoleUtil.info("_____________________________________________________________________");
 
-            procesandoUser();
+         procesandoUser();
+
 
             System.out.println("...........................................................");
             System.out.println(" Voy a detener [" + ejecuciones + "] at" + new Date());
@@ -139,7 +145,7 @@ public class TarjetaScheduler implements Serializable, JmoordbCoreXHTMLUtil {
             Integer page = 1;
             Integer size = rowPage.get();
             Search searchCount = DocumentUtil.convertForLookup(filter, sort, 0, 0);
-            Integer totalRecords = tarjetaRepository.count(searchCount).intValue();
+            Integer totalRecords = userViewRepository.count(searchCount).intValue();
             Integer totalPage = numberOfPages(totalRecords, rowPage.get());
             if (totalPage.equals(0L)) {
                 System.out.println("\t\t\tNo hay usuarios para analizar");
@@ -150,11 +156,16 @@ public class TarjetaScheduler implements Serializable, JmoordbCoreXHTMLUtil {
                     if (list == null || list.isEmpty()) {
                     } else {
                         for (UserView uv : list) {
+
                             if (uv.getRecibirNotificacion()) {
                                 System.out.println("*****************************************************************");
-                                System.out.println("\t\t(iduser) " + uv.getIduser() + " () " + uv.getName());
+                                System.out.println("\t\t  (iduser) " + uv.getIduser() + " () " + uv.getName() + " " + uv.getEmail());
                                 procesandoTarjetas(uv);
+
+                    
                                 System.out.println("*****************************************************************");
+//                            }
+
                             }
 
                         }
@@ -167,7 +178,7 @@ public class TarjetaScheduler implements Serializable, JmoordbCoreXHTMLUtil {
         }
         return Boolean.FALSE;
     }
-// </editor-fold>
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Boolean procesandoTarjetas(Long iduser)  ">
     public Boolean procesandoTarjetas(UserView userView) {
@@ -210,12 +221,19 @@ public class TarjetaScheduler implements Serializable, JmoordbCoreXHTMLUtil {
                 if (tarjetaEmails == null || tarjetaEmails.isEmpty()) {
 
                 } else {
+                    System.out.println(" Intendando enviar correo a " + userView.getName());
                     tarjetaEmails = tarjetaEmails.stream().sorted(Comparator.comparing(Tarjeta::getIdtarjeta).reversed()).collect(Collectors.toList());
                     sendEmailTarjeta(tarjetaEmails, userView, "enviando correo");
+                    /**
+                     * Pausa unos milesegundos para dar tiempo al cierre de la conexión al servidor de correo
+                     */
+                    Thread.sleep(milisegundosPausa);
+                    System.out.println(" (ok)  a " + userView.getName());
                 }
 
             }
         } catch (Exception e) {
+            System.out.println("Error " + e.getLocalizedMessage());
             MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + "error: " + e.getLocalizedMessage());
         }
         return Boolean.FALSE;
@@ -335,7 +353,8 @@ public class TarjetaScheduler implements Serializable, JmoordbCoreXHTMLUtil {
                 if (emailList == null || emailList.isEmpty()) {
 
                 } else {
-                    mensajeEmail += "<strong>" + "Visite " + "</strong>" + " <a href=\"" + applicative.getPath() + "\">SFT</a>" + "<br><br>";
+                
+                    mensajeEmail += "<strong>" + "Visite " + "</strong>" + " <a href=\""+urlServer  + "\">SFT</a>" + "<br><br>";
                     tituloEmail += " " + " Resumen de Tarjetas pendiente y en progreso SFT";
                     EmailSender emailSender = new EmailSender.Builder()
                             .header(tituloEmail)
@@ -356,4 +375,8 @@ public class TarjetaScheduler implements Serializable, JmoordbCoreXHTMLUtil {
         }
     }
 // </editor-fold>
+
+
+
+
 }
