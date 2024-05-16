@@ -21,17 +21,18 @@ import org.eclipse.microprofile.health.Readiness;
 public class DataBaseConnectionCheck implements HealthCheck {
 
     @Inject
-    ApplicativeRepository applicativeRepository;
+    ApplicativeRepository applicativeR<epository;
 
     @Override
     public HealthCheckResponse call() {
-
+        System.out.println("*****************************");
+        System.out.println(" invocando el ping");
         if (applicativeRepository.ping()) {
             return HealthCheckResponse.up("Base de datos esta en ejecución");
         } else {
             return HealthCheckResponse.down("Base de datos esta detenida");
         }
-
+//   return HealthCheckResponse.up("Base de datos esta en ejecución");
     }
 
    
