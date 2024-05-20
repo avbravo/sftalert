@@ -21,7 +21,7 @@ import org.eclipse.microprofile.health.Readiness;
 public class DataBaseConnectionCheck implements HealthCheck {
 
     @Inject
-    ApplicativeRepository applicativeR<epository;
+    ApplicativeRepository applicativeRepository;
 
     @Override
     public HealthCheckResponse call() {

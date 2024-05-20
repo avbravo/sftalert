@@ -81,3 +81,29 @@ java -jar sftalert-bundle.jar
 
 #@ViewEntity
 Utiliza vistas para mejorar el rendimiento de muchas operaciones
+
+
+
+## _Migracion
+
+TarjetaRepositoryImpl.
+   (*)save()
+
+TarjetaSupplier. IconoSupplier, TipoTarjetaSupplier, TareaSupplier, ComentarioSupplier, EtiquetaSupplier, ImpedimentoSupplier
+
+    (*)toDocument
+    (*)toDocument
+    
+    1246
+    
+    1247
+    
+    1248
+    
+    ## Tarjetas
+    Agregar a la 1291 y 1292
+    1291 y 1292
+    
+      "tipotarjeta" : {
+    "idtipotarjeta" : NumberLong(12)
+  },
