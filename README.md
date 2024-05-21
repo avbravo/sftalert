@@ -33,7 +33,7 @@ java -jar /home/avbravo/software/payara/payara-micro-6.2024.5.jar  --deploy /hom
 
 
 #Crear  el Uberjar
-java -jar   /home/avbravo/software/payara/payara-micro-6.2024.5.jar --deploy /home/avbravo/NetBeansProjects/u/utp/sftalert/sftalert/target/sftalert.war --outputUberJar /home/avbravo/Descargas/sftalert.jar 
+java -jar   /home/avbravo/software/payara/payara-micro-6.2024.5.jar --deploy /home/avbravo/NetBeansProjects/u/utp/sftalert/target/sftalert.war --outputUberJar /home/avbravo/Descargas/sftalert.jar 
 
 
 
