@@ -23,7 +23,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ApplicationScoped
 @DateSupport(jakartaSource = JakartaSource.JAKARTA)
 public class MongoDBProducer implements Serializable {
-
+Integer contadorProducer=0;
     @Inject
     private Config config;
     @Inject
@@ -33,6 +33,8 @@ public class MongoDBProducer implements Serializable {
     @Produces
     @ApplicationScoped
     public MongoClient mongoClient() {
+        contadorProducer++;
+        System.out.println("\t\t[MongoDBProducer mongoClient() ] contadorProducer ="+contadorProducer);
         MongoClient mongoClient = MongoClients.create(mongodburi);
        return mongoClient;
 
