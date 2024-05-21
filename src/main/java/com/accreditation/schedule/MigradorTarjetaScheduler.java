@@ -91,7 +91,7 @@ public class MigradorTarjetaScheduler implements Serializable, JmoordbCoreXHTMLU
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="void schedule()">
-    @Schedule(hour = "11", minute = "36", second = "30", persistent = false)
+    @Schedule(hour = "20", minute = "23", second = "30", persistent = false)
 
     public void schedule() {
         try {
