@@ -94,7 +94,7 @@ public class MigradorSprintScheduler implements Serializable, JmoordbCoreXHTMLUt
     PlanRepository planRepository;
 // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="TarjetaScheduler()">
+    // <editor-fold defaultstate="collapsed" desc="MigradorSprintScheduler()">
     /**
      * Creates a new instance of ApplicationStart
      */
@@ -103,7 +103,7 @@ public class MigradorSprintScheduler implements Serializable, JmoordbCoreXHTMLUt
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="void schedule()">
-    @Schedule(hour = "21", minute = "06", second = "30", persistent = false)
+    @Schedule(hour = "8", minute = "45", second = "30", persistent = false)
 
     public void schedule() {
         try {
