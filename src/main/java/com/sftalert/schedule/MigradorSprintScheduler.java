@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.accreditation.schedule;
+package com.sftalert.schedule;
 
 import com.accreditation.configuration.JmoordbCoreXHTMLUtil;
 import com.accreditation.configuration.JmoordbCronometer;
@@ -103,7 +103,7 @@ public class MigradorSprintScheduler implements Serializable, JmoordbCoreXHTMLUt
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="void schedule()">
-    @Schedule(hour = "11", minute = "20", second = "30", persistent = false)
+    @Schedule(hour = "13", minute = "39", second = "30", persistent = false)
     
     public void schedule() {
         try {
