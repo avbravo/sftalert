@@ -34,8 +34,11 @@ public class Sprint {
   
     @Column
     private Boolean open;
+    
+    @Column(commentary = "")
+    private Boolean programado;
 
-     @ViewReferenced(from = "proyecto", localField = "idproyecto")
+    @ViewReferenced(from = "proyecto", localField = "idproyecto")
 //    @Embedded
     private ProyectoView proyectoView;
     
@@ -51,20 +54,6 @@ List<ActionHistory> actionHistory;
     private Boolean active;
   
     public Sprint() {
-    }
-
-    public Sprint(Long idsprint, String sprint, String descripcion, Date fechainicial, Date fechafinal, Boolean open, ProyectoView proyectoView, EstadisticaCierre estadisticaCierre, List<EstadisticaCierreColaborador> estadisticaCierreColaborador, List<ActionHistory> actionHistory, Boolean active) {
-        this.idsprint = idsprint;
-        this.sprint = sprint;
-        this.descripcion = descripcion;
-        this.fechainicial = fechainicial;
-        this.fechafinal = fechafinal;
-        this.open = open;
-        this.proyectoView = proyectoView;
-        this.estadisticaCierre = estadisticaCierre;
-        this.estadisticaCierreColaborador = estadisticaCierreColaborador;
-        this.actionHistory = actionHistory;
-        this.active = active;
     }
 
     public Long getIdsprint() {
@@ -115,6 +104,14 @@ List<ActionHistory> actionHistory;
         this.open = open;
     }
 
+    public Boolean getProgramado() {
+        return programado;
+    }
+
+    public void setProgramado(Boolean programado) {
+        this.programado = programado;
+    }
+
     public ProyectoView getProyectoView() {
         return proyectoView;
     }
@@ -158,17 +155,18 @@ List<ActionHistory> actionHistory;
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 47 * hash + Objects.hashCode(this.idsprint);
-        hash = 47 * hash + Objects.hashCode(this.sprint);
-        hash = 47 * hash + Objects.hashCode(this.descripcion);
-        hash = 47 * hash + Objects.hashCode(this.fechainicial);
-        hash = 47 * hash + Objects.hashCode(this.fechafinal);
-        hash = 47 * hash + Objects.hashCode(this.open);
-        hash = 47 * hash + Objects.hashCode(this.proyectoView);
-        hash = 47 * hash + Objects.hashCode(this.estadisticaCierre);
-        hash = 47 * hash + Objects.hashCode(this.estadisticaCierreColaborador);
-        hash = 47 * hash + Objects.hashCode(this.actionHistory);
-        hash = 47 * hash + Objects.hashCode(this.active);
+        hash = 67 * hash + Objects.hashCode(this.idsprint);
+        hash = 67 * hash + Objects.hashCode(this.sprint);
+        hash = 67 * hash + Objects.hashCode(this.descripcion);
+        hash = 67 * hash + Objects.hashCode(this.fechainicial);
+        hash = 67 * hash + Objects.hashCode(this.fechafinal);
+        hash = 67 * hash + Objects.hashCode(this.open);
+        hash = 67 * hash + Objects.hashCode(this.programado);
+        hash = 67 * hash + Objects.hashCode(this.proyectoView);
+        hash = 67 * hash + Objects.hashCode(this.estadisticaCierre);
+        hash = 67 * hash + Objects.hashCode(this.estadisticaCierreColaborador);
+        hash = 67 * hash + Objects.hashCode(this.actionHistory);
+        hash = 67 * hash + Objects.hashCode(this.active);
         return hash;
     }
 
@@ -202,6 +200,9 @@ List<ActionHistory> actionHistory;
         if (!Objects.equals(this.open, other.open)) {
             return false;
         }
+        if (!Objects.equals(this.programado, other.programado)) {
+            return false;
+        }
         if (!Objects.equals(this.proyectoView, other.proyectoView)) {
             return false;
         }
@@ -219,9 +220,10 @@ List<ActionHistory> actionHistory;
 
     @Override
     public String toString() {
-        return "Sprint{" + "idsprint=" + idsprint + ", sprint=" + sprint + ", descripcion=" + descripcion + ", fechainicial=" + fechainicial + ", fechafinal=" + fechafinal + ", open=" + open + ", proyectoView=" + proyectoView + ", estadisticaCierre=" + estadisticaCierre + ", estadisticaCierreColaborador=" + estadisticaCierreColaborador + ", actionHistory=" + actionHistory + ", active=" + active + '}';
+        return "Sprint{" + "idsprint=" + idsprint + ", sprint=" + sprint + ", descripcion=" + descripcion + ", fechainicial=" + fechainicial + ", fechafinal=" + fechafinal + ", open=" + open + ", programado=" + programado + ", proyectoView=" + proyectoView + ", estadisticaCierre=" + estadisticaCierre + ", estadisticaCierreColaborador=" + estadisticaCierreColaborador + ", actionHistory=" + actionHistory + ", active=" + active + '}';
     }
 
+    
    
    
 
