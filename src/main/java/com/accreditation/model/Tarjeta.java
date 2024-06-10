@@ -48,6 +48,9 @@ public class Tarjeta {
 
     @Column(generateQuery = true)
     private Boolean backlog;
+    
+      @Column(commentary = "")
+    private Boolean programado;
 
     @Column(generateQuery = true,commentary = "alta,baja,media")
     private String prioridad;
@@ -87,7 +90,7 @@ public class Tarjeta {
     public Tarjeta() {
     }
 
-    public Tarjeta(Long idtarjeta, String tarjeta, String descripcion, List<UserView> userView, Date fechainicial, Date fechafinal, Icono icono, Tipotarjeta tipotarjeta, Long idsprint, Long idproyecto, Boolean backlog, String prioridad, String estimacion, String columna, Boolean active, List<Tarea> tarea, List<Comentario> comentario, List<Etiqueta> etiqueta, List<Archivo> archivo, List<Impedimento> impedimento, Boolean foreaneo, Date lastModification, List<ActionHistory> actionHistory) {
+    public Tarjeta(Long idtarjeta, String tarjeta, String descripcion, List<UserView> userView, Date fechainicial, Date fechafinal, Icono icono, Tipotarjeta tipotarjeta, Long idsprint, Long idproyecto, Boolean backlog, Boolean programado, String prioridad, String estimacion, String columna, Boolean active, List<Tarea> tarea, List<Comentario> comentario, List<Etiqueta> etiqueta, List<Archivo> archivo, List<Impedimento> impedimento, Boolean foreaneo, Date lastModification, List<ActionHistory> actionHistory) {
         this.idtarjeta = idtarjeta;
         this.tarjeta = tarjeta;
         this.descripcion = descripcion;
@@ -99,6 +102,7 @@ public class Tarjeta {
         this.idsprint = idsprint;
         this.idproyecto = idproyecto;
         this.backlog = backlog;
+        this.programado = programado;
         this.prioridad = prioridad;
         this.estimacion = estimacion;
         this.columna = columna;
@@ -201,6 +205,14 @@ public class Tarjeta {
         this.backlog = backlog;
     }
 
+    public Boolean getProgramado() {
+        return programado;
+    }
+
+    public void setProgramado(Boolean programado) {
+        this.programado = programado;
+    }
+
     public String getPrioridad() {
         return prioridad;
     }
@@ -300,29 +312,30 @@ public class Tarjeta {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.idtarjeta);
-        hash = 97 * hash + Objects.hashCode(this.tarjeta);
-        hash = 97 * hash + Objects.hashCode(this.descripcion);
-        hash = 97 * hash + Objects.hashCode(this.userView);
-        hash = 97 * hash + Objects.hashCode(this.fechainicial);
-        hash = 97 * hash + Objects.hashCode(this.fechafinal);
-        hash = 97 * hash + Objects.hashCode(this.icono);
-        hash = 97 * hash + Objects.hashCode(this.tipotarjeta);
-        hash = 97 * hash + Objects.hashCode(this.idsprint);
-        hash = 97 * hash + Objects.hashCode(this.idproyecto);
-        hash = 97 * hash + Objects.hashCode(this.backlog);
-        hash = 97 * hash + Objects.hashCode(this.prioridad);
-        hash = 97 * hash + Objects.hashCode(this.estimacion);
-        hash = 97 * hash + Objects.hashCode(this.columna);
-        hash = 97 * hash + Objects.hashCode(this.active);
-        hash = 97 * hash + Objects.hashCode(this.tarea);
-        hash = 97 * hash + Objects.hashCode(this.comentario);
-        hash = 97 * hash + Objects.hashCode(this.etiqueta);
-        hash = 97 * hash + Objects.hashCode(this.archivo);
-        hash = 97 * hash + Objects.hashCode(this.impedimento);
-        hash = 97 * hash + Objects.hashCode(this.foreaneo);
-        hash = 97 * hash + Objects.hashCode(this.lastModification);
-        hash = 97 * hash + Objects.hashCode(this.actionHistory);
+        hash = 43 * hash + Objects.hashCode(this.idtarjeta);
+        hash = 43 * hash + Objects.hashCode(this.tarjeta);
+        hash = 43 * hash + Objects.hashCode(this.descripcion);
+        hash = 43 * hash + Objects.hashCode(this.userView);
+        hash = 43 * hash + Objects.hashCode(this.fechainicial);
+        hash = 43 * hash + Objects.hashCode(this.fechafinal);
+        hash = 43 * hash + Objects.hashCode(this.icono);
+        hash = 43 * hash + Objects.hashCode(this.tipotarjeta);
+        hash = 43 * hash + Objects.hashCode(this.idsprint);
+        hash = 43 * hash + Objects.hashCode(this.idproyecto);
+        hash = 43 * hash + Objects.hashCode(this.backlog);
+        hash = 43 * hash + Objects.hashCode(this.programado);
+        hash = 43 * hash + Objects.hashCode(this.prioridad);
+        hash = 43 * hash + Objects.hashCode(this.estimacion);
+        hash = 43 * hash + Objects.hashCode(this.columna);
+        hash = 43 * hash + Objects.hashCode(this.active);
+        hash = 43 * hash + Objects.hashCode(this.tarea);
+        hash = 43 * hash + Objects.hashCode(this.comentario);
+        hash = 43 * hash + Objects.hashCode(this.etiqueta);
+        hash = 43 * hash + Objects.hashCode(this.archivo);
+        hash = 43 * hash + Objects.hashCode(this.impedimento);
+        hash = 43 * hash + Objects.hashCode(this.foreaneo);
+        hash = 43 * hash + Objects.hashCode(this.lastModification);
+        hash = 43 * hash + Objects.hashCode(this.actionHistory);
         return hash;
     }
 
@@ -380,6 +393,9 @@ public class Tarjeta {
         if (!Objects.equals(this.backlog, other.backlog)) {
             return false;
         }
+        if (!Objects.equals(this.programado, other.programado)) {
+            return false;
+        }
         if (!Objects.equals(this.active, other.active)) {
             return false;
         }
@@ -409,9 +425,10 @@ public class Tarjeta {
 
     @Override
     public String toString() {
-        return "Tarjeta{" + "idtarjeta=" + idtarjeta + ", tarjeta=" + tarjeta + ", descripcion=" + descripcion + ", userView=" + userView + ", fechainicial=" + fechainicial + ", fechafinal=" + fechafinal + ", icono=" + icono + ", tipotarjeta=" + tipotarjeta + ", idsprint=" + idsprint + ", idproyecto=" + idproyecto + ", backlog=" + backlog + ", prioridad=" + prioridad + ", estimacion=" + estimacion + ", columna=" + columna + ", active=" + active + ", tarea=" + tarea + ", comentario=" + comentario + ", etiqueta=" + etiqueta + ", archivo=" + archivo + ", impedimento=" + impedimento + ", foreaneo=" + foreaneo + ", lastModification=" + lastModification + ", actionHistory=" + actionHistory + '}';
+        return "Tarjeta{" + "idtarjeta=" + idtarjeta + ", tarjeta=" + tarjeta + ", descripcion=" + descripcion + ", userView=" + userView + ", fechainicial=" + fechainicial + ", fechafinal=" + fechafinal + ", icono=" + icono + ", tipotarjeta=" + tipotarjeta + ", idsprint=" + idsprint + ", idproyecto=" + idproyecto + ", backlog=" + backlog + ", programado=" + programado + ", prioridad=" + prioridad + ", estimacion=" + estimacion + ", columna=" + columna + ", active=" + active + ", tarea=" + tarea + ", comentario=" + comentario + ", etiqueta=" + etiqueta + ", archivo=" + archivo + ", impedimento=" + impedimento + ", foreaneo=" + foreaneo + ", lastModification=" + lastModification + ", actionHistory=" + actionHistory + '}';
     }
 
+    
 
     
 }

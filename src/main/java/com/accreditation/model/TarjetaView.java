@@ -39,7 +39,8 @@ public class TarjetaView {
       @Column
     private Boolean active;
     
-
+  @Column(commentary = "")
+    private Boolean programado;
     @Column
     private String columna;
     
@@ -51,7 +52,7 @@ public class TarjetaView {
     public TarjetaView() {
     }
 
-    public TarjetaView(Long idtarjeta, String tarjeta, String descripcion, Date fechainicial, Date fechafinal, String prioridad, String estimacion, Boolean active, String columna, Boolean foreaneo) {
+    public TarjetaView(Long idtarjeta, String tarjeta, String descripcion, Date fechainicial, Date fechafinal, String prioridad, String estimacion, Boolean active, Boolean programado, String columna, Boolean foreaneo) {
         this.idtarjeta = idtarjeta;
         this.tarjeta = tarjeta;
         this.descripcion = descripcion;
@@ -60,6 +61,7 @@ public class TarjetaView {
         this.prioridad = prioridad;
         this.estimacion = estimacion;
         this.active = active;
+        this.programado = programado;
         this.columna = columna;
         this.foreaneo = foreaneo;
     }
@@ -128,6 +130,14 @@ public class TarjetaView {
         this.active = active;
     }
 
+    public Boolean getProgramado() {
+        return programado;
+    }
+
+    public void setProgramado(Boolean programado) {
+        this.programado = programado;
+    }
+
     public String getColumna() {
         return columna;
     }
@@ -145,23 +155,19 @@ public class TarjetaView {
     }
 
     @Override
-    public String toString() {
-        return "TarjetaView{" + "idtarjeta=" + idtarjeta + ", tarjeta=" + tarjeta + ", descripcion=" + descripcion + ", fechainicial=" + fechainicial + ", fechafinal=" + fechafinal + ", prioridad=" + prioridad + ", estimacion=" + estimacion + ", active=" + active + ", columna=" + columna + ", foreaneo=" + foreaneo + '}';
-    }
-
-    @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.idtarjeta);
-        hash = 29 * hash + Objects.hashCode(this.tarjeta);
-        hash = 29 * hash + Objects.hashCode(this.descripcion);
-        hash = 29 * hash + Objects.hashCode(this.fechainicial);
-        hash = 29 * hash + Objects.hashCode(this.fechafinal);
-        hash = 29 * hash + Objects.hashCode(this.prioridad);
-        hash = 29 * hash + Objects.hashCode(this.estimacion);
-        hash = 29 * hash + Objects.hashCode(this.active);
-        hash = 29 * hash + Objects.hashCode(this.columna);
-        hash = 29 * hash + Objects.hashCode(this.foreaneo);
+        hash = 61 * hash + Objects.hashCode(this.idtarjeta);
+        hash = 61 * hash + Objects.hashCode(this.tarjeta);
+        hash = 61 * hash + Objects.hashCode(this.descripcion);
+        hash = 61 * hash + Objects.hashCode(this.fechainicial);
+        hash = 61 * hash + Objects.hashCode(this.fechafinal);
+        hash = 61 * hash + Objects.hashCode(this.prioridad);
+        hash = 61 * hash + Objects.hashCode(this.estimacion);
+        hash = 61 * hash + Objects.hashCode(this.active);
+        hash = 61 * hash + Objects.hashCode(this.programado);
+        hash = 61 * hash + Objects.hashCode(this.columna);
+        hash = 61 * hash + Objects.hashCode(this.foreaneo);
         return hash;
     }
 
@@ -204,8 +210,18 @@ public class TarjetaView {
         if (!Objects.equals(this.active, other.active)) {
             return false;
         }
+        if (!Objects.equals(this.programado, other.programado)) {
+            return false;
+        }
         return Objects.equals(this.foreaneo, other.foreaneo);
     }
+
+    @Override
+    public String toString() {
+        return "TarjetaView{" + "idtarjeta=" + idtarjeta + ", tarjeta=" + tarjeta + ", descripcion=" + descripcion + ", fechainicial=" + fechainicial + ", fechafinal=" + fechafinal + ", prioridad=" + prioridad + ", estimacion=" + estimacion + ", active=" + active + ", programado=" + programado + ", columna=" + columna + ", foreaneo=" + foreaneo + '}';
+    }
+
+   
 
   
   
