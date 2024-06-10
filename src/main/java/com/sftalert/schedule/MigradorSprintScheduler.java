@@ -103,7 +103,7 @@ public class MigradorSprintScheduler implements Serializable, JmoordbCoreXHTMLUt
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="void schedule()">
-    @Schedule(hour = "21", minute = "57", second = "30", persistent = false)
+    @Schedule(hour = "14", minute = "00", second = "30", persistent = false)
     
     public void schedule() {
         try {
@@ -218,8 +218,8 @@ public class MigradorSprintScheduler implements Serializable, JmoordbCoreXHTMLUt
                 }
                 
                 System.out.println("\t________________________________________________________");
-                System.out.println("\t <>Total de Tarjetas: " + totalTarjetas);
-                System.out.println("\t <>Total de Tarjetas No migradas: " + totalTarjetasNoMigradas);
+                System.out.println("\t <>Total de Sprints: " + totalTarjetas);
+                System.out.println("\t <>Total de Sprint No migradas: " + totalTarjetasNoMigradas);
                 System.out.println("\t________________________________________________________");
                 
             }
