@@ -103,7 +103,7 @@ public class MigradorSprintScheduler implements Serializable, JmoordbCoreXHTMLUt
 // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="void schedule()">
-    @Schedule(hour = "14", minute = "00", second = "30", persistent = false)
+    @Schedule(hour = "15", minute = "15", second = "30", persistent = false)
     
     public void schedule() {
         try {
