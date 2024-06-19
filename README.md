@@ -23,17 +23,17 @@ java -jar -Xmx512m target/sftalert.jar
 
 
 Para ejecutar uberjar
-java -jar payara-micro-6.2024.5.jar --deploy sftalert.war --outputUberJar sftalert.jar
+java -jar payara-micro-6.2024.6.jar --deploy sftalert.war --outputUberJar sftalert.jar
 
 
 #Ejecutar el war
 
 
-java -jar /home/avbravo/software/payara/payara-micro-6.2024.5.jar  --deploy /home/avbravo/NetBeansProjects/u/utp/sftalert/target/sftalert.war --noHazelcast --logo --port 9080
+java -jar /home/avbravo/software/payara/payara-micro-6.2024.6.jar  --deploy /home/avbravo/NetBeansProjects/u/utp/sftalert/target/sftalert.war --noHazelcast --logo --port 9080
 
 
 #Crear  el Uberjar
-java -jar   /home/avbravo/software/payara/payara-micro-6.2024.5.jar --deploy /home/avbravo/NetBeansProjects/u/utp/sftalert/target/sftalert.war --outputUberJar /home/avbravo/Descargas/sftalert.jar 
+java -jar   /home/avbravo/software/payara/payara-micro-6.2024.6.jar --deploy /home/avbravo/NetBeansProjects/u/utp/sftalert/target/sftalert.war --outputUberJar /home/avbravo/Descargas/sftalert.jar 
 
 
 
