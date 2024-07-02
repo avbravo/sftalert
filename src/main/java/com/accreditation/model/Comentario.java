@@ -6,7 +6,7 @@ package com.accreditation.model;
 
 import com.jmoordb.core.annotation.Column;
 import com.jmoordb.core.annotation.DocumentEmbeddable;
-import com.jmoordb.core.annotation.ViewReferenced;
+import com.jmoordb.core.annotation.Embedded;
 import java.util.Date;
 import java.util.Objects;
 
@@ -28,7 +28,7 @@ public class Comentario {
     private Date fecha;
     @Column
     private Boolean active;
-    @ViewReferenced(from = "user", localField = "iduser")
+    @Embedded
     private UserView userView;
 
     public Comentario() {

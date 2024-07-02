@@ -24,7 +24,7 @@ public class Actividad {
     private Long idactividad;
     @Column
  private String codigo;
-    @Column
+    @Column(generateQuery = true)
  private String actividad;
     @Column
  private Integer anio;

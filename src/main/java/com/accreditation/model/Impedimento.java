@@ -6,7 +6,7 @@ package com.accreditation.model;
 
 import com.jmoordb.core.annotation.Column;
 import com.jmoordb.core.annotation.DocumentEmbeddable;
-import com.jmoordb.core.annotation.ViewReferenced;
+import com.jmoordb.core.annotation.Embedded;
 import java.util.Date;
 import java.util.Objects;
 
@@ -23,7 +23,7 @@ public class Impedimento {
     private Date fecha;
        @Column
     private Boolean completado;
-      @ViewReferenced(from = "user", localField = "iduser")
+      @Embedded
     private UserView userView;  
     @Column
     private Boolean active;

@@ -84,13 +84,15 @@ public class Proyecto {
     @Column(commentary = "semanal,quincenal, mensual, trimestral, semestral,anual")
     private String periocidiadsprint;
 
+    @Column(commentary = "Indica la cantidad de dias de duracion de los sprint")
+    private Integer diasDuracionSprint;
     @Embedded
     List<ActionHistory> actionHistory;
 
     public Proyecto() {
     }
 
-    public Proyecto(Long idproyecto, String proyecto, String descripcion, Icono icono, String prefijo, Date fechafinal, Date fechainicial, Integer diasAlertaVencimiento, List<DepartamentView> departamentView, List<Area> area, List<GrupoTipoTarjeta> grupoTipoTarjeta, List<ProyectoMiembro> proyectoMiembro, Boolean colaboradorcreartarjeta, Boolean privado, Boolean showTarjetaPrivado, Boolean showTodasReserva, Boolean agregarTarjetaDuplicada, CentralView centralView, Double avance, String estado, Boolean active, Boolean generarsprintautomaticamente, String periocidiadsprint, List<ActionHistory> actionHistory) {
+    public Proyecto(Long idproyecto, String proyecto, String descripcion, Icono icono, String prefijo, Date fechafinal, Date fechainicial, Integer diasAlertaVencimiento, List<DepartamentView> departamentView, List<Area> area, List<GrupoTipoTarjeta> grupoTipoTarjeta, List<ProyectoMiembro> proyectoMiembro, Boolean colaboradorcreartarjeta, Boolean privado, Boolean showTarjetaPrivado, Boolean showTodasReserva, Boolean agregarTarjetaDuplicada, CentralView centralView, Double avance, String estado, Boolean active, Boolean generarsprintautomaticamente, String periocidiadsprint, Integer diasDuracionSprint, List<ActionHistory> actionHistory) {
         this.idproyecto = idproyecto;
         this.proyecto = proyecto;
         this.descripcion = descripcion;
@@ -114,10 +116,10 @@ public class Proyecto {
         this.active = active;
         this.generarsprintautomaticamente = generarsprintautomaticamente;
         this.periocidiadsprint = periocidiadsprint;
+        this.diasDuracionSprint = diasDuracionSprint;
         this.actionHistory = actionHistory;
     }
 
-    
     public Long getIdproyecto() {
         return idproyecto;
     }
@@ -172,6 +174,14 @@ public class Proyecto {
 
     public void setFechainicial(Date fechainicial) {
         this.fechainicial = fechainicial;
+    }
+
+    public Integer getDiasAlertaVencimiento() {
+        return diasAlertaVencimiento;
+    }
+
+    public void setDiasAlertaVencimiento(Integer diasAlertaVencimiento) {
+        this.diasAlertaVencimiento = diasAlertaVencimiento;
     }
 
     public List<DepartamentView> getDepartamentView() {
@@ -294,6 +304,14 @@ public class Proyecto {
         this.periocidiadsprint = periocidiadsprint;
     }
 
+    public Integer getDiasDuracionSprint() {
+        return diasDuracionSprint;
+    }
+
+    public void setDiasDuracionSprint(Integer diasDuracionSprint) {
+        this.diasDuracionSprint = diasDuracionSprint;
+    }
+
     public List<ActionHistory> getActionHistory() {
         return actionHistory;
     }
@@ -302,41 +320,34 @@ public class Proyecto {
         this.actionHistory = actionHistory;
     }
 
-    public Integer getDiasAlertaVencimiento() {
-        return diasAlertaVencimiento;
-    }
-
-    public void setDiasAlertaVencimiento(Integer diasAlertaVencimiento) {
-        this.diasAlertaVencimiento = diasAlertaVencimiento;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 73 * hash + Objects.hashCode(this.idproyecto);
-        hash = 73 * hash + Objects.hashCode(this.proyecto);
-        hash = 73 * hash + Objects.hashCode(this.descripcion);
-        hash = 73 * hash + Objects.hashCode(this.icono);
-        hash = 73 * hash + Objects.hashCode(this.prefijo);
-        hash = 73 * hash + Objects.hashCode(this.fechafinal);
-        hash = 73 * hash + Objects.hashCode(this.fechainicial);
-        hash = 73 * hash + Objects.hashCode(this.diasAlertaVencimiento);
-        hash = 73 * hash + Objects.hashCode(this.departamentView);
-        hash = 73 * hash + Objects.hashCode(this.area);
-        hash = 73 * hash + Objects.hashCode(this.grupoTipoTarjeta);
-        hash = 73 * hash + Objects.hashCode(this.proyectoMiembro);
-        hash = 73 * hash + Objects.hashCode(this.colaboradorcreartarjeta);
-        hash = 73 * hash + Objects.hashCode(this.privado);
-        hash = 73 * hash + Objects.hashCode(this.showTarjetaPrivado);
-        hash = 73 * hash + Objects.hashCode(this.showTodasReserva);
-        hash = 73 * hash + Objects.hashCode(this.agregarTarjetaDuplicada);
-        hash = 73 * hash + Objects.hashCode(this.centralView);
-        hash = 73 * hash + Objects.hashCode(this.avance);
-        hash = 73 * hash + Objects.hashCode(this.estado);
-        hash = 73 * hash + Objects.hashCode(this.active);
-        hash = 73 * hash + Objects.hashCode(this.generarsprintautomaticamente);
-        hash = 73 * hash + Objects.hashCode(this.periocidiadsprint);
-        hash = 73 * hash + Objects.hashCode(this.actionHistory);
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.idproyecto);
+        hash = 79 * hash + Objects.hashCode(this.proyecto);
+        hash = 79 * hash + Objects.hashCode(this.descripcion);
+        hash = 79 * hash + Objects.hashCode(this.icono);
+        hash = 79 * hash + Objects.hashCode(this.prefijo);
+        hash = 79 * hash + Objects.hashCode(this.fechafinal);
+        hash = 79 * hash + Objects.hashCode(this.fechainicial);
+        hash = 79 * hash + Objects.hashCode(this.diasAlertaVencimiento);
+        hash = 79 * hash + Objects.hashCode(this.departamentView);
+        hash = 79 * hash + Objects.hashCode(this.area);
+        hash = 79 * hash + Objects.hashCode(this.grupoTipoTarjeta);
+        hash = 79 * hash + Objects.hashCode(this.proyectoMiembro);
+        hash = 79 * hash + Objects.hashCode(this.colaboradorcreartarjeta);
+        hash = 79 * hash + Objects.hashCode(this.privado);
+        hash = 79 * hash + Objects.hashCode(this.showTarjetaPrivado);
+        hash = 79 * hash + Objects.hashCode(this.showTodasReserva);
+        hash = 79 * hash + Objects.hashCode(this.agregarTarjetaDuplicada);
+        hash = 79 * hash + Objects.hashCode(this.centralView);
+        hash = 79 * hash + Objects.hashCode(this.avance);
+        hash = 79 * hash + Objects.hashCode(this.estado);
+        hash = 79 * hash + Objects.hashCode(this.active);
+        hash = 79 * hash + Objects.hashCode(this.generarsprintautomaticamente);
+        hash = 79 * hash + Objects.hashCode(this.periocidiadsprint);
+        hash = 79 * hash + Objects.hashCode(this.diasDuracionSprint);
+        hash = 79 * hash + Objects.hashCode(this.actionHistory);
         return hash;
     }
 
@@ -421,18 +432,18 @@ public class Proyecto {
         if (!Objects.equals(this.generarsprintautomaticamente, other.generarsprintautomaticamente)) {
             return false;
         }
+        if (!Objects.equals(this.diasDuracionSprint, other.diasDuracionSprint)) {
+            return false;
+        }
         return Objects.equals(this.actionHistory, other.actionHistory);
     }
 
     @Override
     public String toString() {
-        return "Proyecto{" + "idproyecto=" + idproyecto + ", proyecto=" + proyecto + ", descripcion=" + descripcion + ", icono=" + icono + ", prefijo=" + prefijo + ", fechafinal=" + fechafinal + ", fechainicial=" + fechainicial + ", diasAlertaVencimiento=" + diasAlertaVencimiento + ", departamentView=" + departamentView + ", area=" + area + ", grupoTipoTarjeta=" + grupoTipoTarjeta + ", proyectoMiembro=" + proyectoMiembro + ", colaboradorcreartarjeta=" + colaboradorcreartarjeta + ", privado=" + privado + ", showTarjetaPrivado=" + showTarjetaPrivado + ", showTodasReserva=" + showTodasReserva + ", agregarTarjetaDuplicada=" + agregarTarjetaDuplicada + ", centralView=" + centralView + ", avance=" + avance + ", estado=" + estado + ", active=" + active + ", generarsprintautomaticamente=" + generarsprintautomaticamente + ", periocidiadsprint=" + periocidiadsprint + ", actionHistory=" + actionHistory + '}';
+        return "Proyecto{" + "idproyecto=" + idproyecto + ", proyecto=" + proyecto + ", descripcion=" + descripcion + ", icono=" + icono + ", prefijo=" + prefijo + ", fechafinal=" + fechafinal + ", fechainicial=" + fechainicial + ", diasAlertaVencimiento=" + diasAlertaVencimiento + ", departamentView=" + departamentView + ", area=" + area + ", grupoTipoTarjeta=" + grupoTipoTarjeta + ", proyectoMiembro=" + proyectoMiembro + ", colaboradorcreartarjeta=" + colaboradorcreartarjeta + ", privado=" + privado + ", showTarjetaPrivado=" + showTarjetaPrivado + ", showTodasReserva=" + showTodasReserva + ", agregarTarjetaDuplicada=" + agregarTarjetaDuplicada + ", centralView=" + centralView + ", avance=" + avance + ", estado=" + estado + ", active=" + active + ", generarsprintautomaticamente=" + generarsprintautomaticamente + ", periocidiadsprint=" + periocidiadsprint + ", diasDuracionSprint=" + diasDuracionSprint + ", actionHistory=" + actionHistory + '}';
     }
 
    
-    
-    
-    
-    
-
+   
+  
 }

@@ -27,21 +27,20 @@ public class SprintOpen {
 
     @Column
     private Boolean open;
+    
+    @Column
+    private Boolean programado;
 
     public SprintOpen() {
     }
 
-    
-    
-    
-    
-    
-    public SprintOpen(Long idpsrint, String sprint, Date fechainicial, Date fechafinal, Boolean open) {
+    public SprintOpen(Long idpsrint, String sprint, Date fechainicial, Date fechafinal, Boolean open, Boolean programado) {
         this.idpsrint = idpsrint;
         this.sprint = sprint;
         this.fechainicial = fechainicial;
         this.fechafinal = fechafinal;
         this.open = open;
+        this.programado = programado;
     }
 
     public Long getIdpsrint() {
@@ -84,9 +83,23 @@ public class SprintOpen {
         this.open = open;
     }
 
+    public Boolean getProgramado() {
+        return programado;
+    }
+
+    public void setProgramado(Boolean programado) {
+        this.programado = programado;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.idpsrint);
+        hash = 37 * hash + Objects.hashCode(this.sprint);
+        hash = 37 * hash + Objects.hashCode(this.fechainicial);
+        hash = 37 * hash + Objects.hashCode(this.fechafinal);
+        hash = 37 * hash + Objects.hashCode(this.open);
+        hash = 37 * hash + Objects.hashCode(this.programado);
         return hash;
     }
 
@@ -114,13 +127,19 @@ public class SprintOpen {
         if (!Objects.equals(this.fechafinal, other.fechafinal)) {
             return false;
         }
-        return Objects.equals(this.open, other.open);
+        if (!Objects.equals(this.open, other.open)) {
+            return false;
+        }
+        return Objects.equals(this.programado, other.programado);
     }
 
     @Override
     public String toString() {
-        return "SprintOpen{" + "idpsrint=" + idpsrint + ", sprint=" + sprint + ", fechainicial=" + fechainicial + ", fechafinal=" + fechafinal + ", open=" + open + '}';
+        return "SprintOpen{" + "idpsrint=" + idpsrint + ", sprint=" + sprint + ", fechainicial=" + fechainicial + ", fechafinal=" + fechafinal + ", open=" + open + ", programado=" + programado + '}';
     }
-   
+
+    
+    
+    
 
 }

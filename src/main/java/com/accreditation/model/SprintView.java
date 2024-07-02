@@ -32,19 +32,22 @@ public class SprintView {
     @Column
     private Boolean open;
     @Column
+    private Boolean programado;
+    @Column
     private Boolean active;
 
 
     public SprintView() {
     }
 
-    public SprintView(Long idsprint, String sprint, String descripcion, Date fechainicial, Date fechafinal, Boolean open, Boolean active) {
+    public SprintView(Long idsprint, String sprint, String descripcion, Date fechainicial, Date fechafinal, Boolean open, Boolean programado, Boolean active) {
         this.idsprint = idsprint;
         this.sprint = sprint;
         this.descripcion = descripcion;
         this.fechainicial = fechainicial;
         this.fechafinal = fechafinal;
         this.open = open;
+        this.programado = programado;
         this.active = active;
     }
 
@@ -96,6 +99,14 @@ public class SprintView {
         this.open = open;
     }
 
+    public Boolean getProgramado() {
+        return programado;
+    }
+
+    public void setProgramado(Boolean programado) {
+        this.programado = programado;
+    }
+
     public Boolean getActive() {
         return active;
     }
@@ -105,29 +116,15 @@ public class SprintView {
     }
 
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("SprintView{");
-        sb.append("idsprint=").append(idsprint);
-        sb.append(", sprint=").append(sprint);
-        sb.append(", descripcion=").append(descripcion);
-        sb.append(", fechainicial=").append(fechainicial);
-        sb.append(", fechafinal=").append(fechafinal);
-        sb.append(", open=").append(open);
-        sb.append(", active=").append(active);
-        sb.append('}');
-        return sb.toString();
-    }
-
-    @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = 7;
         hash = 71 * hash + Objects.hashCode(this.idsprint);
         hash = 71 * hash + Objects.hashCode(this.sprint);
         hash = 71 * hash + Objects.hashCode(this.descripcion);
         hash = 71 * hash + Objects.hashCode(this.fechainicial);
         hash = 71 * hash + Objects.hashCode(this.fechafinal);
         hash = 71 * hash + Objects.hashCode(this.open);
+        hash = 71 * hash + Objects.hashCode(this.programado);
         hash = 71 * hash + Objects.hashCode(this.active);
         return hash;
     }
@@ -162,8 +159,19 @@ public class SprintView {
         if (!Objects.equals(this.open, other.open)) {
             return false;
         }
+        if (!Objects.equals(this.programado, other.programado)) {
+            return false;
+        }
         return Objects.equals(this.active, other.active);
     }
 
+    @Override
+    public String toString() {
+        return "SprintView{" + "idsprint=" + idsprint + ", sprint=" + sprint + ", descripcion=" + descripcion + ", fechainicial=" + fechainicial + ", fechafinal=" + fechafinal + ", open=" + open + ", programado=" + programado + ", active=" + active + '}';
+    }
+
+    
+    
+    
     
 }

@@ -6,7 +6,7 @@ package com.accreditation.model;
 
 import com.jmoordb.core.annotation.Column;
 import com.jmoordb.core.annotation.DocumentEmbeddable;
-import com.jmoordb.core.annotation.ViewReferenced;
+import com.jmoordb.core.annotation.Embedded;
 import java.util.Objects;
 
 /**
@@ -24,7 +24,7 @@ public class Tarea {
     private Boolean active;
     @Column
     private Integer orden;
-    @ViewReferenced(from = "user", localField = "iduser")
+    @Embedded
     private UserView userView;
 
     public Tarea() {

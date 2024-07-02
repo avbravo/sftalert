@@ -8,9 +8,7 @@ package com.sftalert.schedule;
 import com.accreditation.configuration.JmoordbCoreXHTMLUtil;
 import com.accreditation.configuration.JmoordbCronometer;
 import com.accreditation.model.Applicative;
-import com.accreditation.model.Plan;
 import com.accreditation.model.Proyecto;
-import com.accreditation.model.Sprint;
 import com.accreditation.model.Tarjeta;
 import com.accreditation.model.UserView;
 import com.accreditation.repository.ApplicativeRepository;
@@ -19,14 +17,10 @@ import com.accreditation.repository.ProyectoRepository;
 import com.accreditation.repository.ProyectoViewRepository;
 import com.accreditation.repository.SprintRepository;
 import com.accreditation.repository.UserViewRepository;
-import com.jmoordb.core.model.Search;
 import com.jmoordb.core.util.ConsoleUtil;
-import com.jmoordb.core.util.DocumentUtil;
 import com.jmoordb.core.util.MessagesUtil;
-import static com.mongodb.client.model.Filters.eq;
 import com.sftalert.utils.emails.EmailSender;
 import com.sftalert.utils.emails.EmailSenderEvent;
-import jakarta.ejb.Schedule;
 import jakarta.ejb.Stateless;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
@@ -36,8 +30,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
@@ -144,85 +136,85 @@ public class MigradorSprintScheduler implements Serializable, JmoordbCoreXHTMLUt
     // <editor-fold defaultstate="collapsed" desc="Boolean procesandoSprint()  ">
     public Boolean procesandoSprint() {
         try {
-            System.out.println("__________________________________________________________");
-            System.out.println(" (*)                  " + MessagesUtil.nameOfClassAndMethod() + " (*)");
-            System.out.println("__________________________________________________________");
-            
-            Bson filter = eq("active", Boolean.TRUE);
-//        
-            Document sort = new Document("idsprint", 1);
-            
-            Search searchCount = DocumentUtil.convertForLookup(filter, sort, 0, 0);
-            Integer totalRecords = sprintRepository.count(searchCount).intValue();
-            System.out.println("\t total Records " + totalRecords);
-            Integer totalPage = numberOfPages(totalRecords, rowPage.get());
-            Integer size = rowPage.get();
-            
-            Integer totalTarjetas = 0;
-            Integer totalTarjetasNoMigradas = 0;
-            if (totalPage.equals(0L)) {
-                System.out.println("\t\t\t{No hay sprints para analizar}");
-            } else {
-                String nameProyecto = "";
-                
-                for (int j = 1; j <= totalPage; j++) {
-//                    System.out.println("..... procesando " + j + " filter " + filter.toBsonDocument().toJson());
-                    Search search = DocumentUtil.convertForLookup(filter, sort, j, size);
-                    sprintRepository.setDynamicCollection("");
-                    var list = sprintRepository.lookup(search);
-                    if (list == null || list.isEmpty()) {
-                        System.out.println("..... esta vacia ");
-                    } else {
-                        
-                        for (Sprint s : list) {
-                            totalTarjetas++;
-                            //sprintEmails.add(t);
-                            if (s.getIdsprint() == null) {
-                                System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                                System.out.println(" \t\t sprint " + s.getIdsprint() + " el proyecto es null");
-                                totalTarjetasNoMigradas++;
-                            } else {
-                                System.out.println("(* ) Guardando :" + s.getIdsprint() + "(*) Proyecto " + s.getProyectoView().getIdproyecto());
-                                Plan plan = new Plan();
-                                plan.setActionHistory(s.getActionHistory());
-                                plan.setActive(s.getActive());
-                                plan.setDescripcion(s.getDescripcion());
-                                plan.setEstadisticaCierre(s.getEstadisticaCierre());
-                                plan.setEstadisticaCierreColaborador(s.getEstadisticaCierreColaborador());
-                                plan.setFechafinal(s.getFechafinal());
-                                plan.setFechainicial(s.getFechainicial());
-                                plan.setIdsprint(s.getIdsprint());
-                                plan.setOpen(s.getOpen());
-                                plan.setProyectoView(s.getProyectoView());
-                                plan.setSprint(s.getSprint());
-                                plan.setProgramado(s.getProgramado());
-                            
-                                planRepository.setDynamicCollection("sprint_" + s.getProyectoView().getIdproyecto());
-                                if (planRepository.save(plan).isPresent()) {
-                                    
-                                } else {
-                                    System.out.println("_______________________________________________________");
-                                    System.out.println("(*) No se guardo " + s.getIdsprint());
-                                    totalTarjetasNoMigradas++;
-                                    System.out.println("_______________________________________________________");
-                                }
-                                
-                                
-                                   
-                            }
-                            
-                        }
-                        
-                    }
-                    
-                }
-                
-                System.out.println("\t________________________________________________________");
-                System.out.println("\t <>Total de Sprints: " + totalTarjetas);
-                System.out.println("\t <>Total de Sprint No migradas: " + totalTarjetasNoMigradas);
-                System.out.println("\t________________________________________________________");
-                
-            }
+//            System.out.println("__________________________________________________________");
+//            System.out.println(" (*)                  " + MessagesUtil.nameOfClassAndMethod() + " (*)");
+//            System.out.println("__________________________________________________________");
+//            
+//            Bson filter = eq("active", Boolean.TRUE);
+////        
+//            Document sort = new Document("idsprint", 1);
+//            
+//            Search searchCount = DocumentUtil.convertForLookup(filter, sort, 0, 0);
+//            Integer totalRecords = sprintRepository.count(searchCount).intValue();
+//            System.out.println("\t total Records " + totalRecords);
+//            Integer totalPage = numberOfPages(totalRecords, rowPage.get());
+//            Integer size = rowPage.get();
+//            
+//            Integer totalTarjetas = 0;
+//            Integer totalTarjetasNoMigradas = 0;
+//            if (totalPage.equals(0L)) {
+//                System.out.println("\t\t\t{No hay sprints para analizar}");
+//            } else {
+//                String nameProyecto = "";
+//                
+//                for (int j = 1; j <= totalPage; j++) {
+////                    System.out.println("..... procesando " + j + " filter " + filter.toBsonDocument().toJson());
+//                    Search search = DocumentUtil.convertForLookup(filter, sort, j, size);
+//                    sprintRepository.setDynamicCollection("");
+//                    var list = sprintRepository.lookup(search);
+//                    if (list == null || list.isEmpty()) {
+//                        System.out.println("..... esta vacia ");
+//                    } else {
+//                        
+//                        for (Sprint s : list) {
+//                            totalTarjetas++;
+//                            //sprintEmails.add(t);
+//                            if (s.getIdsprint() == null) {
+//                                System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+//                                System.out.println(" \t\t sprint " + s.getIdsprint() + " el proyecto es null");
+//                                totalTarjetasNoMigradas++;
+//                            } else {
+//                                System.out.println("(* ) Guardando :" + s.getIdsprint() + "(*) Proyecto " + s.getProyectoView().getIdproyecto());
+//                                Plan plan = new Plan();
+//                                plan.setActionHistory(s.getActionHistory());
+//                                plan.setActive(s.getActive());
+//                                plan.setDescripcion(s.getDescripcion());
+//                                plan.setEstadisticaCierre(s.getEstadisticaCierre());
+//                                plan.setEstadisticaCierreColaborador(s.getEstadisticaCierreColaborador());
+//                                plan.setFechafinal(s.getFechafinal());
+//                                plan.setFechainicial(s.getFechainicial());
+//                                plan.setIdsprint(s.getIdsprint());
+//                                plan.setOpen(s.getOpen());
+//                                plan.setProyectoView(s.getProyectoView());
+//                                plan.setSprint(s.getSprint());
+//                                plan.setProgramado(s.getProgramado());
+//                            
+//                                planRepository.setDynamicCollection("sprint_" + s.getProyectoView().getIdproyecto());
+//                                if (planRepository.save(plan).isPresent()) {
+//                                    
+//                                } else {
+//                                    System.out.println("_______________________________________________________");
+//                                    System.out.println("(*) No se guardo " + s.getIdsprint());
+//                                    totalTarjetasNoMigradas++;
+//                                    System.out.println("_______________________________________________________");
+//                                }
+//                                
+//                                
+//                                   
+//                            }
+//                            
+//                        }
+//                        
+//                    }
+//                    
+//                }
+//                
+//                System.out.println("\t________________________________________________________");
+//                System.out.println("\t <>Total de Sprints: " + totalTarjetas);
+//                System.out.println("\t <>Total de Sprint No migradas: " + totalTarjetasNoMigradas);
+//                System.out.println("\t________________________________________________________");
+//                
+//            }
         } catch (Exception e) {
             System.out.println("Error " + e.getLocalizedMessage());
             MessagesUtil.error(MessagesUtil.nameOfClassAndMethod() + "error: " + e.getLocalizedMessage());

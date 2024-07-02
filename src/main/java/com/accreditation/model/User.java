@@ -312,5 +312,7 @@ public class User {
     public String toString() {
         return "User{" + "iduser=" + iduser + ", username=" + username + ", cellphone=" + cellphone + ", email=" + email + ", identificationcard=" + identificationcard + ", sex=" + sex + ", socialsecuritynumber=" + socialsecuritynumber + ", name=" + name + ", password=" + password + ", photo=" + photo + ", dateofbirth=" + dateofbirth + ", centralView=" + centralView + ", profile=" + profile + ", active=" + active + ", recibirNotificacion=" + recibirNotificacion + ", theme=" + theme + ", actionHistory=" + actionHistory + '}';
     }
+
+    
     
 }
