@@ -141,15 +141,5 @@ public interface JmoordbCoreXHTMLUtil {
         // </editor-fold>
     
     
-     // <editor-fold defaultstate="collapsed" desc="Integer  diasPendientes(Tarjeta tarjeta) ">
-    public default Integer diasPendientes(Tarjeta tarjeta) {
-        Integer result = 0;
-        try {
-//            result = DateUtil.diasEntreFechas(DateUtil.fechaActual(), tarjeta.getFechafinal());
-            result = DateUtil.diasEntreFechas(tarjeta.getFechafinal(), DateUtil.fechaActual());
-        } catch (Exception e) {
-             MessagesUtil.error(MessagesUtil.nameOfMethod() + " " + e.getLocalizedMessage());
-        }
-        return result;
-    }
+   
 }
